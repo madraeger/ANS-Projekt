@@ -1,0 +1,17 @@
+_build
+.ipynb_checkpoints
+.DS_Store
+*.log
+.Rproj.user
+.Rhistory
+*_cache
+*_files
+_book
+_manuscript
+_freeze
+.quarto
+__pycache__
+fp-info-cache
+*-backups
+*.zip
+
