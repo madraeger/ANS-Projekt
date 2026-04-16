@@ -1,0 +1,9 @@
+.title KiCad schematic
+.model __Q1 VDMOS NCHAN
+L1 /Vdd /Vd 1m
+C1 /Vdd /Vd 1.0132u
+R1 /Vdd /Vd 10
+MQ1 /Vd /Vg GND __Q1
+Vdd1 /Vdd GND DC 5 
+Vg1 /Vg GND DC 1 
+.end
