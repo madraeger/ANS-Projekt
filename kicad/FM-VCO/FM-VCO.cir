@@ -1,0 +1,257 @@
+* FM-VCO
+
+*----------------------------------------------------------------------------
+*	LIBRARIES 
+*----------------------------------------------------------------------------
+.include "./SpiceLibs/BB112.cir"
+.include "./SpiceLibs/BC546B.cir"
+.include "./SpiceLibs/regulators.lib"
+.include "./SpiceLibs/TL082-dual.lib"
+.include "./SpiceLibs/ind-dual.cir"
+.include "./SpiceLibs/led-green.cir"
+.include "./SpiceLibs/p600g_spice.cir"
+.include "./SpiceLibs/ths3491.lib"
+
+.model __RV2 potentiometer( r=1k )
+.model __RV1 potentiometer( r=20k )
+
+*----------------------------------------------------------------------------
+*	ANALYSIS 
+*----------------------------------------------------------------------------
+
+.param VCC=12
+.param cntl=0
+.param simtime=300u
+
+.option noacct
+.option noinit
+
+.tran 1n simtime 0
+
+* start and end values for cntl
+.csparam start = -4
+.csparam end = 9
+.csparam delta = 0.5
+
+* control script
+.control
+* create a new plot for storing the measurements
+* set xtrtol=2
+* set curplot = new  ; create a new plot
+* set curplottitle = "Frequency vs. Voltage"
+* set freq_volt = $curplot ; store its name to 'freq_volt'
+* setplot $freq_volt
+
+* if (end < start)                ; find appropriate sign for delta
+*   let delta = -abs(delta)
+* else
+*   let delta = abs(delta)
+* end
+
+* let ldelta = delta              ; loop delta, original delta will be restored to csparam by 'reset'
+* let no_runs = floor((end - start)/delta) + 1  ; number of runs for simulation
+* let run = 0                     ; number of actual run
+
+* let vcovec=unitvec(no_runs)   ; vector for all vco cntl voltages
+* let foscvec=unitvec(no_runs)  ; vector for all freq values
+
+* let cntlcur = start           ; set the start value for cntl
+* * the loop
+*   dowhile run < no_runs
+*     alterparam cntl = $&cntlcur       ; instance parameter control voltage for VCO is changed to cntlcur
+*     reset                             ; make .param change effective
+*     tran 1n 'simtime' 0               ; simulate tran, plot tran1 is created
+*     setplot $freq_plot                ; go to the output plot
+*     let vcovec[run] = tran1.v(/MP9)   ; store the current cntl voltage value
+*     let outvec[run] = tran1.v(/MP12)
+*     linearize v(/MP12)
+*     fft v(/MP12)
+*     let spoutvec[run] = v(/MP12)
+*     * start meas at freq > 0 to skip large dc part
+*     meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+*     let foscvec[run] = fosc
+*     destroy sp1
+*     destroy tran1
+*     let cntlcur = cntlcur + ldelta
+*     let run = run + 1
+*   end
+
+*   settype frequency foscvec
+*   settype voltage vcovec
+*   plot foscvec vs vcovec
+*   print vcovec foscvec
+*   rusage
+.endc
+
+* .control
+* set xtrtol=2
+* set dt = $curplot
+* set curplot = new
+* set curplottitle = "Frequency versus voltage"
+* set freq_volt = $curplot $ store its name to 'freq_volt'
+* setplot $freq_volt
+* let vcovec=vector(7)
+* let foscvec=vector(7)
+* setplot $dt
+* alter vco -4
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[0]=v(/MP9)
+* linearize /MP12
+* fft v(/MP12) 
+* * start meas at freq > 0 to skip large dc part
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[0]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* reset
+* alter vco -2
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[1]=v(/MP9)
+* linearize /MP12
+* fft v(/MP12)
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[1]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* reset
+* alter vco 0
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[2]=v(/MP9)
+* linearize v(/MP12)
+* fft v(/MP12)
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[2]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* reset
+* alter vco 2
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[3]=v(/MP9)
+* linearize v(/MP12)
+* fft v(/MP12)
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[3]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* reset
+* alter vco 4
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[4]=v(/MP9)
+* linearize v(/MP12)
+* fft v(/MP12)
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[4]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* reset
+* alter vco 6
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[5]=v(/MP9)
+* linearize v(/MP12)
+* fft v(/MP12)
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[5]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* reset
+* alter vco 8
+* tran 1n $&simtime 0
+* let {$freq_volt}.vcovec[6]=v(/MP9)
+* linearize v(/MP12)
+* fft v(/MP12)
+* meas sp fosc MAX_AT v(/MP12) from=1e3 to=1e9
+* let {$freq_volt}.foscvec[6]=fosc
+* * plot v(/MP12) xlimit 140u 160u
+* plot tran1.v(/MP12) tran3.v(/MP12) tran5.v(/MP12) tran7.v(/MP12)
+* + tran9.v(/MP12) tran11.v(/MP12) tran13.v(/MP12) xlimit 140u 160u
+* plot mag(sp2.v(/MP12)) mag(sp4.v(/MP12)) mag(sp6.v(/MP12)) mag(sp8.v(/MP12))
+* + mag(sp10.v(/MP12)) mag(sp12.v(/MP12)) mag(sp14.v(/MP12)) xlimit 1e6 5e6
+* setplot $freq_volt
+* .endc
+
+*----------------------------------------------------------------------------
+*	MAIN CIRCUIT 
+*----------------------------------------------------------------------------
+* SIM SUPPLY
+* VDD18 VDD GND DC 'VCC'
+* VSS18 GND VSS DC 'VCC'
+* 
+VDD12 +12V GND DC 'VCC'
+VSS12 GND -12V DC 'VCC'
+* VCO  /MP9 0   DC 0
+VCO Net-_J6-Pin_1_ GND DC 'CNTL'
+VAC /AC_IN GND DC 0
+
+* REAL SUPPLY
+XD1 GND VDD P600G
+XD2 VSS GND P600G
+C1 VDD GND 10u
+C6 GND VSS 10u
+C2 VDD GND 330n
+C5 GND VSS 330n
+XIC1 VDD GND +12V LM7812
+XIC2 VSS GND -12V LM7912
+C3 GND +12V 100n
+C4 GND -12V 100n
+C8 +12V GND 100u
+C9 -12V GND 100u
+R1 +12V Net-_LED1-A_ 470
+DLED1 Net-_LED1-A_ GND LED_GREEN
+R2 GND Net-_LED2-A_ 470
+DLED2 Net-_LED2-A_ -12V LED_GREEN
+C26 GND +12V 100n
+C27 GND -12V 100n
+
+
+* VCO CONTROL
+C14 /AC_IN Net-_C14-Pad2_ 1u
+R8 Net-_C14-Pad2_ Net-_IC3B--_ 10k
+R10 Net-_IC3B--_ /OPO2 10k
+R19 Net-_IC3B-+_ Net-_J6-Pin_1_ 10k
+R16 Net-_IC3B-+_ GND 10k
+XIC3 /OPO1 /OPO1 /OPO2 -12V Net-_IC3B-+_ Net-_IC3B--_ /OPO2 +12V TL082-dual
+R11 /OPO1 /MP9 4.7k
+
+
+* VCO
+ARV2 +12V +12V Net-_R7-Pad1_ __RV2
+R7 Net-_R7-Pad1_ /MP5 3.3k
+XL12 /MP6 /MP5 /MP10 2inds
+D3 /MP9 /MP6 BB112
+D4 /MP9 /MP10 BB112
+R13 /MP9 /MP6 22k
+R14 /MP10 /MP9 22k
+R17 /MP6 /MP10 1MEG
+C23 /MP6 /MP10 68p
+C22 Net-_T1-B_ /MP10 22n
+C24 /MP6 Net-_T2-B_ 22n
+QT1 /MP6 Net-_T1-B_ /VEE QBC546B
+QT2 /MP10 Net-_T2-B_ /VEE QBC546B
+R12 GND Net-_T1-B_ 10k
+R9 -12V /VEE 10k
+R15 GND Net-_T2-B_ 10k
+C18 /MP10 /MP12 1u
+ARV1 /MP12 /IN GND __RV1
+
+
+* TREIBER
+* XIC5 /IN Net-_IC5--_ Net-_IC5-Pad6_ -12V +12V -12V GND THS3491RGT
+* R24 GND Net-_IC4--_ 1.2k
+* R25 Net-_IC4--_ Net-_IC4-Pad6_ 1.2k
+* R6 Net-_IC4-Pad6_ /OUT-1 50
+* C12 +12V GND 47n
+* C10 +12V GND 1n
+* C7 +12V GND 10u
+* C13 GND -12V 1n
+* C11 GND -12V 47n
+* C15 GND -12V 10u
+
+* XIC4 /IN Net-_IC4--_ Net-_IC4-Pad6_ -12V +12V -12V GND THS3491RGT
+* R26 GND Net-_IC5--_ 1.2k
+* R27 Net-_IC5-Pad6_ Net-_IC5--_ 1.2k
+* R18 Net-_IC5-Pad6_ /OUT-2 50
+* C21 GND +12V 47n
+* C17 GND +12V 1n
+* C16 +12V GND 10u
+* C19 GND -12V 47n
+* C25 GND -12V 10u
+* C20 GND -12V 1n
+
+* CL1 /OUT-1 GND 1u
+* CL2 /OUT-2 GND 1u
+
+.end

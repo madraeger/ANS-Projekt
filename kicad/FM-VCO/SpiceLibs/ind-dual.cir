@@ -1,0 +1,6 @@
+* A dual inductor ngspice model
+.subckt 2inds a m b 
++ params: L1=7u L2=7u
+L1 a m {L1} 
+L2 m b {L2}
+.ends

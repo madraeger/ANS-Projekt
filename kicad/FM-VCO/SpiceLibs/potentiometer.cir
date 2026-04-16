@@ -1,0 +1,11 @@
+* This is the potentiometer
+*      _____
+*  1--|_____|--2
+*        |
+*        3
+*
+.SUBCKT potentiometera a m b
+.param w=limit(wiper,1m,.999)
+R0 a m {Rtot*(1-w)}
+R1 m b {Rtot*(w)}
+.ENDS

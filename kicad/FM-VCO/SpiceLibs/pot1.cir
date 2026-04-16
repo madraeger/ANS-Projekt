@@ -1,0 +1,9 @@
+* Potentiometer model
+* https://gitlab.com/kicad/code/kicad/-/issues/17812
+* Symbol pins 1 2 3
+.subckt pot1 r1 w r0
++ params: Rtot=1k wpos=0.4
+Apot r0 w r1 potmod
+.model potmod potentiometer(position={wpos} r={Rtot})
+.ends
+

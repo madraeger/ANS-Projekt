@@ -1,0 +1,5 @@
+* BB112 SPICE MODEL
+* https://www.mikrocontroller.net/topic/304813
+* http://www.qsl.net/in3otd/electronics/varactor_model/varactor_fitting.html
+
+.model BB112 D (Is=1p Rs=1.5 Bv=15 Ibv=10u Cjo=720p Vj=70 M=30)

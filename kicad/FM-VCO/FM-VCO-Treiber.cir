@@ -1,0 +1,81 @@
+.title KiCad schematic
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/BB112.cir"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/BC546B.cir"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/TL082-dual.lib"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/ind-dual.cir"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/led-green.cir"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/p600g_spice.cir"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/regulators.lib"
+.include "/Users/mimeiners/Documents/KiCad/FM-VCO/SpiceLibs/ths3491.lib"
+.model __RV2 potentiometer( r=1k )
+.model __RV1 potentiometer( r=20k )
+.save all
+.probe alli
+C24 /MP6 Net-_T2-B_ 22n
+C23 /MP6 /MP10 68p
+R12 GND Net-_T1-B_ 10k
+R9 -12V /VEE 10k
+QT1 /MP6 Net-_T1-B_ /VEE QBC546B
+C22 Net-_T1-B_ /MP10 22n
+XIC3 /OPO1 /OPO1 /OPO2 -12V Net-_IC3B-+_ Net-_IC3B--_ /OPO2 +12V TL082-dual
+R10 Net-_IC3B--_ /OPO2 10k
+R16 Net-_IC3B-+_ GND 10k
+R14 /MP10 /MP9 22k
+R13 /MP9 /MP6 22k
+R17 /MP6 /MP10 1MEG
+D3 /MP9 /MP6 BB112
+D4 /MP9 /MP10 BB112
+R11 /OPO1 /MP9 4.7k
+XL12 /MP6 /MP5 /MP10 2inds
+R7 Net-_R7-Pad1_ /MP5 3.3k
+ARV2 +12V +12V Net-_R7-Pad1_ __RV2
+VCO1 Net-_J6-Pin_1_ GND DC 0 
+VAC1 /AC_IN GND DC 0 
+R19 Net-_IC3B-+_ Net-_J6-Pin_1_ 10k
+R8 Net-_C14-Pad2_ Net-_IC3B--_ 10k
+C14 /AC_IN Net-_C14-Pad2_ 1u
+ARV1 /MP12 /IN GND __RV1
+C18 /MP10 /MP12 1u
+VDD1 +12V GND DC 12 AC 1  
+VSS1 GND -12V DC 12 
+QT2 /MP10 Net-_T2-B_ /VEE QBC546B
+R15 GND Net-_T2-B_ 10k
+R2 Net-_LED2-A_ GND 470
+C8 +12V GND 100u
+C9 -12V GND 100u
+R1 Net-_LED1-A_ +12V 470
+C3 GND +12V 100n
+C4 GND -12V 100n
+XIC1 /FM-Spannungsversorgung/+18V GND +12V LM7812
+C5 GND /FM-Spannungsversorgung/-18V 330n
+XIC2 /FM-Spannungsversorgung/-18V GND -12V LM7912
+XD1 GND /FM-Spannungsversorgung/+18V P600G
+C1 /FM-Spannungsversorgung/+18V GND 10u
+C6 GND /FM-Spannungsversorgung/-18V 10u
+C2 /FM-Spannungsversorgung/+18V GND 330n
+XD2 /FM-Spannungsversorgung/-18V GND P600G
+C26 GND +12V 100n
+DLED1 Net-_LED1-A_ GND LED_GREEN
+C27 GND -12V 100n
+DLED2 Net-_LED2-A_ -12V LED_GREEN
+C21 GND +12V 47n
+C17 GND +12V 1n
+C16 +12V GND 10u
+XIC5 /IN Net-_IC5--_ Net-_IC5-Pad6_ -12V +12V -12V GND THS3491RGT
+R18 Net-_IC5-Pad6_ /OUT-2 50R0
+C12 +12V GND 47n
+R6 Net-_IC4-Pad6_ /OUT-1 50R0
+C10 +12V GND 1n
+C7 +12V GND 10u
+R25 Net-_IC4--_ Net-_IC4-Pad6_ 1.2k
+C19 GND -12V 47n
+C25 GND -12V 10u
+R27 Net-_IC5-Pad6_ Net-_IC5--_ 1.2k
+R26 GND Net-_IC5--_ 1.2k
+C20 GND -12V 1n
+C13 GND -12V 1n
+C11 GND -12V 47n
+C15 GND -12V 10u
+R24 GND Net-_IC4--_ 1.2k
+XIC4 /IN Net-_IC4--_ Net-_IC4-Pad6_ -12V +12V -12V GND THS3491RGT
+.end

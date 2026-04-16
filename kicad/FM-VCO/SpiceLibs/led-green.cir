@@ -1,0 +1,5 @@
+* led-green.cir 
+* https://www.mikrocontroller.net/topic/482431
+.model LED_GREEN D (Is=8.2e-25 N=1.46 Rs=5.1 Eg=2.23)
+
+
