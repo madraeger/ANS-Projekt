@@ -22,14 +22,45 @@
       "showGrid": true,
       "traces": [
         {
-          "color": "rgb(152, 78, 163)",
-          "signal": "I(L1)",
-          "trace_type": 258
-        },
-        {
           "color": "rgb(228, 26, 28)",
           "signal": "V(/Vd1)",
           "trace_type": 257
+        }
+      ]
+    },
+    {
+      "analysis": "OP",
+      "commands": [
+        ".op",
+        ".kicad adjustpaths",
+        ".save all",
+        ".probe alli",
+        ".probe allp"
+      ]
+    },
+    {
+      "analysis": "AC",
+      "commands": [
+        ".ac dec 100 1 10Meg",
+        ".kicad adjustpaths",
+        ".save all",
+        ".probe alli",
+        ".probe allp"
+      ],
+      "dottedSecondary": true,
+      "margins": {
+        "bottom": 45,
+        "left": 70,
+        "right": 70,
+        "top": 30
+      },
+      "measurements": [],
+      "showGrid": true,
+      "traces": [
+        {
+          "color": "rgb(228, 26, 28)",
+          "signal": "V(/Vd1) (gain)",
+          "trace_type": 521
         }
       ]
     }
