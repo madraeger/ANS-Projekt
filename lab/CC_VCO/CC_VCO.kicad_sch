@@ -2961,7 +2961,7 @@
 				)
 			)
 		)
-		(property "Value" "140p"
+		(property "Value" "10p"
 			(at 133.35 109.22 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3041,7 +3041,7 @@
 				)
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "22k"
 			(at 123.19 85.09 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3399,7 +3399,7 @@
 				)
 			)
 		)
-		(property "Value" "100k"
+		(property "Value" "22k"
 			(at 143.51 85.09 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3460,6 +3460,7 @@
 	(symbol
 		(lib_id "Device:D_Capacitance")
 		(at 123.19 76.2 0)
+		(mirror x)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3469,7 +3470,7 @@
 		(dnp no)
 		(uuid "c791e5a7-0424-4beb-9058-c6e47c4221d5")
 		(property "Reference" "D1"
-			(at 123.19 83.82 0)
+			(at 123.19 68.58 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3479,7 +3480,7 @@
 			)
 		)
 		(property "Value" "BB804"
-			(at 123.19 81.28 0)
+			(at 123.19 71.12 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3521,7 +3522,7 @@
 				)
 			)
 		)
-		(property "Sim.Library" "C:\\Users\\mauri\\OneDrive\\Dokumente\\KiCad\\10.0\\symbols\\varactor.cir"
+		(property "Sim.Library" "varactor.cir"
 			(at 123.19 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -3922,7 +3923,7 @@
 				)
 			)
 		)
-		(property "Sim.Library" "C:\\Users\\mauri\\OneDrive\\Dokumente\\KiCad\\10.0\\symbols\\varactor.cir"
+		(property "Sim.Library" "varactor.cir"
 			(at 143.51 76.2 0)
 			(hide yes)
 			(show_name no)

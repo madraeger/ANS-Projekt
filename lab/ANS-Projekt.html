@@ -121,6 +121,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#laborübung-1-einstieg-in-kicad-ngspice-und-quarto" id="toc-laborübung-1-einstieg-in-kicad-ngspice-und-quarto" class="nav-link" data-scroll-target="#laborübung-1-einstieg-in-kicad-ngspice-und-quarto"><span class="header-section-number">3.1</span> Laborübung 1: Einstieg in KiCad, ngspice und Quarto</a></li>
   <li><a href="#laborübungen-2-und-3-simulation-datenauswertung-und-erster-lc-oszillator" id="toc-laborübungen-2-und-3-simulation-datenauswertung-und-erster-lc-oszillator" class="nav-link" data-scroll-target="#laborübungen-2-und-3-simulation-datenauswertung-und-erster-lc-oszillator"><span class="header-section-number">3.2</span> Laborübungen 2 und 3: Simulation, Datenauswertung und erster LC-Oszillator</a></li>
+  <li><a href="#cross-coupled-vco" id="toc-cross-coupled-vco" class="nav-link" data-scroll-target="#cross-coupled-vco"><span class="header-section-number">3.3</span> Cross-Coupled VCO</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -190,7 +191,7 @@ window.Quarto = {
 <p>In der ersten Laborübung ging es vor allem darum, die grundlegende Arbeitsweise mit <strong>KiCad</strong>, <strong>ngspice</strong> und <strong>Quarto</strong> kennenzulernen. Dafür wurde zunächst eine einfache Drain-Source-Schaltung mit einem <strong>nMOS-Transistor BS170</strong> in KiCad aufgebaut.</p>
 <p>Anschließend wurde die Schaltung direkt in KiCad mit ngspice simuliert. Zusätzlich wurde die Netzliste aus KiCad exportiert und separat direkt in ngspice simuliert. Dadurch konnten wir den Unterschied zwischen der integrierten Simulation in KiCad und der direkten Simulation über ngspice nachvollziehen.</p>
 <p>Die simulierten Daten aus beiden Vorgehensweisen wurden anschließend miteinander verglichen. Für diesen Vergleich wurden die exportierten Simulationsdaten mit Python eingelesen und grafisch dargestellt. Dadurch konnten wir überprüfen, ob beide Simulationswege zu denselben Ergebnissen führen und ob der Export der Netzliste korrekt funktioniert.</p>
-<div id="a4ac86c2" class="cell" data-execution_count="1">
+<div id="2f2cd422" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -264,6 +265,167 @@ f_0 = \frac{1}{2\pi\sqrt{LC}}
 \]</span></p>
 <p>An dieser Gleichung erkennt man, dass sich die Frequenz verändert, sobald sich die Kapazität oder die Induktivität ändert. In unserem Fall wurde die Kapazität verändert. Wird die Kapazität größer, sinkt die Frequenz. Wird die Kapazität kleiner, steigt die Frequenz. Genau dieser Zusammenhang ist später für einen VCO wichtig, weil dort die Frequenz gezielt über eine veränderbare Kapazität beeinflusst werden soll.</p>
 <p>In der Simulation wurden deshalb verschiedene Kapazitätswerte eingesetzt und die Ausgangsspannung im Zeitbereich betrachtet. Aus dem Verlauf der Ausgangsspannung kann anschließend die Schwingfrequenz bestimmt werden. Damit lässt sich untersuchen, wie stark sich die Frequenz bei unterschiedlichen Kapazitäten verändert.</p>
+</section>
+<section id="cross-coupled-vco" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="cross-coupled-vco"><span class="header-section-number">3.3</span> Cross-Coupled VCO</h2>
+<p>Für unseren VCO haben wir eine Cross-Coupled-Schaltung mit zwei BS170-MOSFETs aufgebaut und in SPICE simuliert. Ziel war es, einen spannungsgesteuerten Oszillator mit einer Mittenfrequenz von</p>
+<p><span class="math display">\[
+f_0 = 5{,}5\,\text{MHz}
+\]</span></p>
+<p>zu realisieren. Zusätzlich sollte der Frequenzhub ungefähr</p>
+<p><span class="math display">\[
+\Delta f = \pm 0{,}5\,\text{MHz}
+\]</span></p>
+<p>betragen. Damit sollte der VCO insgesamt in einem Bereich von ungefähr</p>
+<p><span class="math display">\[
+5{,}0\,\text{MHz} \leq f \leq 6{,}0\,\text{MHz}
+\]</span></p>
+<p>abstimmbar sein.</p>
+<p>Der aktuelle Schaltungsaufbau ist in <a href="#fig-crosscoupled-vco" class="quarto-xref">Abbildung&nbsp;1</a> dargestellt.</p>
+<div id="fig-crosscoupled-vco" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-crosscoupled-vco-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="data/bilder/CC_VCO_schematic.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-crosscoupled-vco-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Abbildung&nbsp;1: Aktueller Aufbau des Cross-Coupled VCO
+</figcaption>
+</figure>
+</div>
+<p>Der Schwingkreis besteht aus den beiden Spulen <span class="math inline">\(L_1\)</span> und <span class="math inline">\(L_2\)</span>, dem festen Kondensator <span class="math inline">\(C_1\)</span> und den beiden Varaktordioden <span class="math inline">\(D_1\)</span> und <span class="math inline">\(D_2\)</span>. Als Transistoren werden zwei BS170-MOSFETs verwendet. Die Frequenz soll über die Spannung <span class="math inline">\(V_\text{tune}\)</span> verändert werden, da diese die Kapazität der Varaktordioden beeinflussen soll.</p>
+<p>Die aktuell verwendeten Bauteilwerte sind:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Bauteil</th>
+<th style="text-align: right;">Wert / Typ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(L_1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(3\,\mu\text{H}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(L_2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(3\,\mu\text{H}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(C_1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(10\,\text{pF}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(C_2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(10\,\text{nF}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(C_3\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(10\,\text{nF}\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R_1\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(22\,\text{k}\Omega\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R_2\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(22\,\text{k}\Omega\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R_3\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(47\,\text{k}\Omega\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(R_4\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(47\,\text{k}\Omega\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Q_1\)</span>, <span class="math inline">\(Q_2\)</span></td>
+<td style="text-align: right;">BS170</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(D_1\)</span>, <span class="math inline">\(D_2\)</span></td>
+<td style="text-align: right;">aktuell BB804, vorher BB112</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(V_{DD}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(10\,\text{V}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Die Resonanzfrequenz eines idealen LC-Schwingkreises kann mit</p>
+<p><span class="math display">\[
+f = \frac{1}{2\pi\sqrt{LC}}
+\]</span></p>
+<p>berechnet werden. Da die Schaltung symmetrisch aufgebaut ist, wurde die wirksame Induktivität näherungsweise als Summe der beiden Spulen angenommen:</p>
+<p><span class="math display">\[
+L_\text{diff} \approx L_1 + L_2
+\]</span></p>
+<p>Mit</p>
+<p><span class="math display">\[
+L_1 = L_2 = 3\,\mu\text{H}
+\]</span></p>
+<p>ergibt sich somit</p>
+<p><span class="math display">\[
+L_\text{diff} \approx 6\,\mu\text{H}
+\]</span></p>
+<p>Für die gewünschte Mittenfrequenz von <span class="math inline">\(5{,}5\,\text{MHz}\)</span> kann daraus die benötigte Kapazität berechnet werden:</p>
+<p><span class="math display">\[
+C = \frac{1}{(2\pi f)^2L}
+\]</span></p>
+<p>Daraus ergibt sich ungefähr:</p>
+<p><span class="math display">\[
+C \approx 140\,\text{pF}
+\]</span></p>
+<p>Für den gewünschten Frequenzbereich ergeben sich damit folgende ungefähre Werte:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Frequenz</th>
+<th style="text-align: right;">notwendige wirksame Kapazität</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;"><span class="math inline">\(5{,}0\,\text{MHz}\)</span></td>
+<td style="text-align: right;">ca. <span class="math inline">\(169\,\text{pF}\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><span class="math inline">\(5{,}5\,\text{MHz}\)</span></td>
+<td style="text-align: right;">ca. <span class="math inline">\(140\,\text{pF}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><span class="math inline">\(6{,}0\,\text{MHz}\)</span></td>
+<td style="text-align: right;">ca. <span class="math inline">\(117\,\text{pF}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Der Schwingkreis müsste also ungefähr zwischen <span class="math inline">\(117\,\text{pF}\)</span> und <span class="math inline">\(169\,\text{pF}\)</span> abstimmbar sein.</p>
+<p>In der Simulation konnten wir die Schaltung inzwischen grundsätzlich zum Schwingen bringen. Allerdings wird die gewünschte Funktion als VCO noch nicht vollständig erreicht. Die Schaltung schwingt zwar, jedoch ist die Abstimmung über die Steuerspannung noch nicht zufriedenstellend. Außerdem ist die Amplitude noch nicht stabil, sondern zeigt teilweise deutliche Schwankungen beziehungsweise Störungen.</p>
+<p>Bei der Auswahl der Varaktordioden zeigte sich in der Simulation ein unerwartetes Verhalten. Von den vorhandenen SPICE-Modellen führte bisher nur die BB112 zu einer deutlich sichtbaren Frequenzänderung bei Veränderung der Abstimmspannung. Bei den anderen getesteten Varaktormodellen änderte sich die Frequenz dagegen kaum oder praktisch gar nicht. Deshalb ist noch unklar, ob dieses Verhalten an den realen Kapazitätswerten der Dioden, an der Beschaltung oder an den verwendeten SPICE-Modellen liegt. Mit der BB112 konnte zwar grundsätzlich eine Frequenzänderung simuliert werden, allerdings lag der resultierende Frequenzbereich nicht im gewünschten Bereich.</p>
+<p>Ein weiteres auffälliges Verhalten bei der BB112 war, dass sich die Abstimmung scheinbar verkehrt herum verhält. Bei einer Abstimmspannung von <span class="math inline">\(8\,\text{V}\)</span> ergab sich eine niedrigere Frequenz als bei <span class="math inline">\(1\,\text{V}\)</span>. Normalerweise würde man bei einer Varaktordiode erwarten, dass eine größere Sperrspannung zu einer kleineren Kapazität und damit zu einer höheren Frequenz führt:</p>
+<p><span class="math display">\[
+V_R \uparrow \quad \Rightarrow \quad C_D \downarrow \quad \Rightarrow \quad f \uparrow
+\]</span></p>
+<p>Aktuell wurde statt der BB112 eine BB804 eingesetzt. Mit dieser Diode schwingt die Schaltung bei ungefähr</p>
+<p><span class="math display">\[
+f \approx 5{,}998\,\text{MHz}
+\]</span></p>
+<p>und liegt damit grundsätzlich sehr nah am gewünschten oberen Frequenzbereich. Allerdings zeigt sich bei der BB804 in der Simulation praktisch keine nutzbare Abstimmung über die Spannung <span class="math inline">\(V_\text{tune}\)</span>. Sowohl bei</p>
+<p><span class="math display">\[
+V_\text{tune} = 1\,\text{V}
+\]</span></p>
+<p>als auch bei</p>
+<p><span class="math display">\[
+V_\text{tune} = 8\,\text{V}
+\]</span></p>
+<p>bleibt die Grundfrequenz nahezu gleich. Die eigentliche Grundschwingung verändert sich also kaum.</p>
+<p>Auffällig ist jedoch, dass bei einer Abstimmspannung von <span class="math inline">\(8\,\text{V}\)</span> zusätzliche Störungen beziehungsweise Unregelmäßigkeiten im Signal auftreten. Die Grundfrequenz bleibt dabei ungefähr gleich, aber das Signal wirkt weniger sauber. Damit eignet sich die aktuelle BB804-Beschaltung zwar, um eine Schwingung nahe <span class="math inline">\(6\,\text{MHz}\)</span> zu erzeugen, aber noch nicht für einen echten spannungsgesteuerten Frequenzhub.</p>
+<p><span class="math display">\[
+5{,}0\,\text{MHz} \leq f \leq 6{,}0\,\text{MHz}
+\]</span></p>
+<p>ergibt. Mit der aktuell eingesetzten BB804 wird dieser Frequenzhub in der Simulation jedoch noch nicht erreicht.</p>
+<p>Auffällig ist, dass die gewünschte Frequenz von ungefähr <span class="math inline">\(6\,\mathrm{MHz}\)</span> in der Simulation bereits mit einem festen Kondensator von <span class="math inline">\(C_1 = 10\,\mathrm{pF}\)</span> erreicht wird. Nach der idealen Berechnung müsste die wirksame Gesamtkapazität des Schwingkreises bei <span class="math inline">\(6\,\mathrm{MHz}\)</span> jedoch ungefähr <span class="math inline">\(C_\mathrm{ges} \approx 117\,\mathrm{pF}\)</span> betragen. Daraus folgt, dass <span class="math inline">\(C_1\)</span> nicht die einzige wirksame Kapazität im Schwingkreis ist.</p>
+<p>Zusammenfassend schwingt der Cross-Coupled VCO inzwischen grundsätzlich, erfüllt die geforderte Spezifikation aber noch nicht vollständig. Mit der BB804 wird zwar eine Frequenz nahe <span class="math inline">\(6\,\text{MHz}\)</span> erreicht, jedoch fehlt noch die gewünschte Frequenzänderung über die Abstimmspannung. Mit der BB112 konnte eine Frequenzänderung beobachtet werden, allerdings lag der Frequenzbereich nicht passend und die Diode beeinflusste den Schwingkreis sehr stark. Die wichtigsten offenen Punkte sind daher die fehlende beziehungsweise zu geringe Abstimmwirkung der Varaktordiode, die instabile Amplitude und die weitere Optimierung des Arbeitspunktes.</p>
 </section>
 </section>
 
