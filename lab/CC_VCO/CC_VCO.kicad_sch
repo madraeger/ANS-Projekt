@@ -2317,7 +2317,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
 			(at 99.06 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -2444,7 +2444,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 110.49 127.9652 0)
 			(hide yes)
 			(show_name no)
@@ -2682,7 +2682,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
 			(at 167.64 137.16 0)
 			(hide yes)
 			(show_name no)
@@ -2809,7 +2809,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 148.59 127.9652 0)
 			(hide yes)
 			(show_name no)
@@ -2891,7 +2891,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 131.572 161.29 90)
 			(hide yes)
 			(show_name no)
@@ -2971,7 +2971,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
 			(at 129.54 115.2652 0)
 			(hide yes)
 			(show_name no)
@@ -3051,7 +3051,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 123.19 87.122 90)
 			(hide yes)
 			(show_name no)
@@ -3131,7 +3131,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 133.35 99.822 90)
 			(hide yes)
 			(show_name no)
@@ -3213,7 +3213,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
 			(at 76.2 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -3329,7 +3329,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_THT:L_Axial_L9.5mm_D4.0mm_P15.24mm_Horizontal_Fastron_SMCC"
 			(at 165.1 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -3409,7 +3409,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"
 			(at 143.51 87.122 90)
 			(hide yes)
 			(show_name no)
@@ -3488,7 +3488,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
 			(at 123.19 76.2 0)
 			(hide yes)
 			(show_name no)
@@ -3614,7 +3614,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Inductor_THT:L_Axial_L9.5mm_D4.0mm_P15.24mm_Horizontal_Fastron_SMCC"
 			(at 101.6 59.69 0)
 			(hide yes)
 			(show_name no)
@@ -3696,7 +3696,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical"
 			(at 190.5 55.88 0)
 			(hide yes)
 			(show_name no)
@@ -3889,7 +3889,7 @@
 				)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
 			(at 143.51 76.2 0)
 			(hide yes)
 			(show_name no)
