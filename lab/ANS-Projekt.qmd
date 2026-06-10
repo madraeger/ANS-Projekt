@@ -123,56 +123,54 @@ In der Simulation wurden deshalb verschiedene Kapazitätswerte eingesetzt und di
 
 ## Cross-Coupled VCO
 
-Für unseren VCO haben wir eine Cross-Coupled-Schaltung mit zwei BS170-MOSFETs aufgebaut und in SPICE simuliert. Ziel war es, einen spannungsgesteuerten Oszillator mit einer Mittenfrequenz von
+Für unseren VCO wurde eine Cross-Coupled-Schaltung mit zwei BS170-MOSFETs aufgebaut. Ziel war es, einen spannungsgesteuerten Oszillator mit einer Mittenfrequenz von
 
 $$
 f_0 = 5{,}5\,\text{MHz}
 $$
 
-zu realisieren. Zusätzlich sollte der Frequenzhub ungefähr
+und einem Frequenzhub von ungefähr
 
 $$
 \Delta f = \pm 0{,}5\,\text{MHz}
 $$
 
-betragen. Damit sollte der VCO insgesamt in einem Bereich von ungefähr
+zu realisieren. Der gewünschte Frequenzbereich lag damit ungefähr zwischen
 
 $$
-5{,}0\,\text{MHz} \leq f \leq 6{,}0\,\text{MHz}
+5{,}0\,\text{MHz} \leq f \leq 6{,}0\,\text{MHz}.
 $$
-
-abstimmbar sein.
 
 Der aktuelle Schaltungsaufbau ist in @fig-crosscoupled-vco dargestellt.
 
 ![Aktueller Aufbau des Cross-Coupled VCO](data/bilder/CC_VCO_schematic.png){#fig-crosscoupled-vco width=80%}
 
-Der Schwingkreis besteht aus den beiden Spulen $L_1$ und $L_2$, dem festen Kondensator $C_1$ und den beiden Varaktordioden $D_1$ und $D_2$. Als Transistoren werden zwei BS170-MOSFETs verwendet. Die Frequenz soll über die Spannung $V_\text{tune}$ verändert werden, da diese die Kapazität der Varaktordioden beeinflussen soll.
+Der Schwingkreis besteht aus den beiden Spulen $L_1$ und $L_2$, dem festen Kondensator $C_1$ und den beiden Varaktordioden $D_1$ und $D_2$. Über die Spannung $V_\text{tune}$ wird die Kapazität der Varaktordioden verändert. Dadurch ändert sich die Resonanzfrequenz des Schwingkreises.
 
 Die aktuell verwendeten Bauteilwerte sind:
 
 | Bauteil | Wert / Typ |
 |---|---:|
-| $L_1$ | $3\,\mu\text{H}$ |
-| $L_2$ | $3\,\mu\text{H}$ |
+| $L_1$ | $3{,}3\,\mu\text{H}$ |
+| $L_2$ | $3{,}3\,\mu\text{H}$ |
 | $C_1$ | $10\,\text{pF}$ |
 | $C_2$ | $10\,\text{nF}$ |
 | $C_3$ | $10\,\text{nF}$ |
-| $R_1$ | $22\,\text{k}\Omega$ |
-| $R_2$ | $22\,\text{k}\Omega$ |
-| $R_3$ | $47\,\text{k}\Omega$ |
-| $R_4$ | $47\,\text{k}\Omega$ |
+| $R_1$ | $10\,\text{k}\Omega$ |
+| $R_2$ | $10\,\text{k}\Omega$ |
+| $R_3$ | $10\,\text{k}\Omega$ |
+| $R_4$ | $25{,}5\,\text{k}\Omega$ |
 | $Q_1$, $Q_2$ | BS170 |
-| $D_1$, $D_2$ | aktuell BB804, vorher BB112 |
+| $D_1$, $D_2$ | Varaktordioden |
 | $V_{DD}$ | $10\,\text{V}$ |
 
-Die Resonanzfrequenz eines idealen LC-Schwingkreises kann mit
+Die Resonanzfrequenz eines idealen LC-Schwingkreises lässt sich näherungsweise mit
 
 $$
 f = \frac{1}{2\pi\sqrt{LC}}
 $$
 
-berechnet werden. Da die Schaltung symmetrisch aufgebaut ist, wurde die wirksame Induktivität näherungsweise als Summe der beiden Spulen angenommen:
+berechnen. Da die Schaltung symmetrisch aufgebaut ist, wurde die wirksame Induktivität näherungsweise als Summe der beiden Spulen angenommen:
 
 $$
 L_\text{diff} \approx L_1 + L_2
@@ -181,79 +179,47 @@ $$
 Mit
 
 $$
-L_1 = L_2 = 3\,\mu\text{H}
+L_1 = L_2 = 3{,}3\,\mu\text{H}
 $$
 
-ergibt sich somit
+ergibt sich
 
 $$
-L_\text{diff} \approx 6\,\mu\text{H}
+L_\text{diff} \approx 6{,}6\,\mu\text{H}.
 $$
 
-Für die gewünschte Mittenfrequenz von $5{,}5\,\text{MHz}$ kann daraus die benötigte Kapazität berechnet werden:
+Für die gewünschte Mittenfrequenz von $5{,}5\,\text{MHz}$ ergibt sich daraus eine benötigte wirksame Kapazität von ungefähr
 
 $$
-C = \frac{1}{(2\pi f)^2L}
+C \approx 127\,\text{pF}.
 $$
 
-Daraus ergibt sich ungefähr:
-
-$$
-C \approx 140\,\text{pF}
-$$
-
-Für den gewünschten Frequenzbereich ergeben sich damit folgende ungefähre Werte:
+Für den gewünschten Frequenzbereich ergeben sich näherungsweise folgende Werte:
 
 | Frequenz | notwendige wirksame Kapazität |
 |---:|---:|
-| $5{,}0\,\text{MHz}$ | ca. $169\,\text{pF}$ |
-| $5{,}5\,\text{MHz}$ | ca. $140\,\text{pF}$ |
-| $6{,}0\,\text{MHz}$ | ca. $117\,\text{pF}$ |
+| $5{,}0\,\text{MHz}$ | ca. $154\,\text{pF}$ |
+| $5{,}5\,\text{MHz}$ | ca. $127\,\text{pF}$ |
+| $6{,}0\,\text{MHz}$ | ca. $107\,\text{pF}$ |
 
-Der Schwingkreis müsste also ungefähr zwischen $117\,\text{pF}$ und $169\,\text{pF}$ abstimmbar sein.
+Diese Berechnung ist allerdings nur eine grobe Abschätzung, da in der realen Schaltung noch weitere Kapazitäten und Verluste auftreten. Dazu gehören zum Beispiel parasitäre Kapazitäten der MOSFETs, der Spulen, der Leiterbahnen und auch die Eingangskapazität des Messgeräts.
 
-In der Simulation konnten wir die Schaltung inzwischen grundsätzlich zum Schwingen bringen. Allerdings wird die gewünschte Funktion als VCO noch nicht vollständig erreicht. Die Schaltung schwingt zwar, jedoch ist die Abstimmung über die Steuerspannung noch nicht zufriedenstellend. Außerdem ist die Amplitude noch nicht stabil, sondern zeigt teilweise deutliche Schwankungen beziehungsweise Störungen.
-
-Bei der Auswahl der Varaktordioden zeigte sich in der Simulation ein unerwartetes Verhalten. Von den vorhandenen SPICE-Modellen führte bisher nur die BB112 zu einer deutlich sichtbaren Frequenzänderung bei Veränderung der Abstimmspannung. Bei den anderen getesteten Varaktormodellen änderte sich die Frequenz dagegen kaum oder praktisch gar nicht. Deshalb ist noch unklar, ob dieses Verhalten an den realen Kapazitätswerten der Dioden, an der Beschaltung oder an den verwendeten SPICE-Modellen liegt. Mit der BB112 konnte zwar grundsätzlich eine Frequenzänderung simuliert werden, allerdings lag der resultierende Frequenzbereich nicht im gewünschten Bereich. 
-
-Ein weiteres auffälliges Verhalten bei der BB112 war, dass sich die Abstimmung scheinbar verkehrt herum verhält. Bei einer Abstimmspannung von $8\,\text{V}$ ergab sich eine niedrigere Frequenz als bei $1\,\text{V}$. Normalerweise würde man bei einer Varaktordiode erwarten, dass eine größere Sperrspannung zu einer kleineren Kapazität und damit zu einer höheren Frequenz führt:
+Mit der neuen Schaltung funktioniert der VCO im praktischen Aufbau grundsätzlich. In der realen Messung konnte ein Frequenzbereich von ungefähr
 
 $$
-V_R \uparrow \quad \Rightarrow \quad C_D \downarrow \quad \Rightarrow \quad f \uparrow
+5\,\text{MHz} \leq f \leq 7\,\text{MHz}
 $$
 
+erreicht werden. Damit liegt der Aufbau in der richtigen Größenordnung und zeigt eine deutliche Abstimmung über die Steuerspannung.
 
-Aktuell wurde statt der BB112 eine BB804 eingesetzt. Mit dieser Diode schwingt die Schaltung bei ungefähr
-
-$$
-f \approx 5{,}998\,\text{MHz}
-$$
-
-und liegt damit grundsätzlich sehr nah am gewünschten oberen Frequenzbereich. Allerdings zeigt sich bei der BB804 in der Simulation praktisch keine nutzbare Abstimmung über die Spannung $V_\text{tune}$. Sowohl bei
+In der Simulation stimmen die Frequenzen jedoch noch nicht mit der realen Schaltung überein. Dort liegt der Frequenzbereich nur ungefähr bei
 
 $$
-V_\text{tune} = 1\,\text{V}
+2{,}9\,\text{MHz} \leq f \leq 4{,}2\,\text{MHz}.
 $$
 
-als auch bei
+Die Simulation liefert also deutlich niedrigere Frequenzen als der echte Aufbau.
 
-$$
-V_\text{tune} = 8\,\text{V}
-$$
+Ein weiterer Punkt ist, dass die Amplitude noch nicht über den gesamten Frequenzbereich konstant bleibt. Besonders beim Verändern der Steuerspannung ändert sich nicht nur die Frequenz, sondern auch die Ausgangsamplitude. Das liegt vermutlich daran, dass sich mit der Varaktorkapazität auch die Verluste und damit die Güte des Schwingkreises ändern. Zusätzlich beeinflussen der Arbeitspunkt der MOSFETs und die Belastung des Schwingkreises die Amplitude. Aktuell wird deshalb daran gearbeitet, die Amplitude stabiler zu bekommen. 
 
-bleibt die Grundfrequenz nahezu gleich. Die eigentliche Grundschwingung verändert sich also kaum.
-
-Auffällig ist jedoch, dass bei einer Abstimmspannung von $8\,\text{V}$ zusätzliche Störungen beziehungsweise Unregelmäßigkeiten im Signal auftreten. Die Grundfrequenz bleibt dabei ungefähr gleich, aber das Signal wirkt weniger sauber. Damit eignet sich die aktuelle BB804-Beschaltung zwar, um eine Schwingung nahe $6\,\text{MHz}$ zu erzeugen, aber noch nicht für einen echten spannungsgesteuerten Frequenzhub.
-
-
-
-$$
-5{,}0\,\text{MHz} \leq f \leq 6{,}0\,\text{MHz}
-$$
-
-ergibt. Mit der aktuell eingesetzten BB804 wird dieser Frequenzhub in der Simulation jedoch noch nicht erreicht.
-
-Auffällig ist, dass die gewünschte Frequenz von ungefähr $6\,\mathrm{MHz}$ in der Simulation bereits mit einem festen Kondensator von $C_1 = 10\,\mathrm{pF}$ erreicht wird. Nach der idealen Berechnung müsste die wirksame Gesamtkapazität des Schwingkreises bei $6\,\mathrm{MHz}$ jedoch ungefähr $C_\mathrm{ges} \approx 117\,\mathrm{pF}$ betragen. Daraus folgt, dass $C_1$ nicht die einzige wirksame Kapazität im Schwingkreis ist.
-
-
-Zusammenfassend schwingt der Cross-Coupled VCO inzwischen grundsätzlich, erfüllt die geforderte Spezifikation aber noch nicht vollständig. Mit der BB804 wird zwar eine Frequenz nahe $6\,\text{MHz}$ erreicht, jedoch fehlt noch die gewünschte Frequenzänderung über die Abstimmspannung. Mit der BB112 konnte eine Frequenzänderung beobachtet werden, allerdings lag der Frequenzbereich nicht passend und die Diode beeinflusste den Schwingkreis sehr stark. Die wichtigsten offenen Punkte sind daher die fehlende beziehungsweise zu geringe Abstimmwirkung der Varaktordiode, die instabile Amplitude und die weitere Optimierung des Arbeitspunktes. 
+Zusammenfassend funktioniert der neue Cross-Coupled-VCO im realen Aufbau bereits grundsätzlich. Der gemessene Frequenzbereich von etwa $5\,\text{MHz}$ bis $7\,\text{MHz}$ liegt in der gewünschten Größenordnung. Die Simulation bildet das Verhalten jedoch noch nicht korrekt ab, da dort nur etwa $2{,}9\,\text{MHz}$ bis $4{,}2\,\text{MHz}$ erreicht werden. Der wichtigste offene Punkt ist aktuell die Stabilisierung der Amplitude über den gesamten Abstimm- und Frequenzbereich.

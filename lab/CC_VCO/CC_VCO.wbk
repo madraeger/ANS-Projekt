@@ -5,7 +5,7 @@
     {
       "analysis": "TRAN",
       "commands": [
-        ".tran 10u 10m",
+        ".tran 1n 100u",
         ".kicad adjustpaths",
         ".save all",
         ".probe alli",
@@ -24,12 +24,12 @@
         {
           "color": "rgb(55, 126, 184)",
           "cursor1": {
-            "position": 0.0005122733707004296,
+            "position": 7.96712440763359e-05,
             "x_format": "3~s",
             "y_format": "3~V"
           },
           "cursor2": {
-            "position": 0.0005124371639551592,
+            "position": 7.99115303071363e-05,
             "x_format": "3~s",
             "y_format": "3~V"
           },
@@ -38,7 +38,7 @@
             "y_format": "3~V"
           },
           "signal": "V(Out)",
-          "trace_type": 1
+          "trace_type": 257
         }
       ]
     }
