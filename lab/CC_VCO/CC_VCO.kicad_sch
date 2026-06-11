@@ -5,6 +5,192 @@
 	(uuid "6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf")
 	(paper "A4")
 	(lib_symbols
+		(symbol "Connector:Conn_Coaxial"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0.254 3.048 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_Coaxial"
+				(at 2.921 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "BNC SMA SMB SMC LEMO coaxial connector CINCH RCA MCX MMCX U.FL UMRF"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "*BNC* *SMA* *SMB* *SMC* *Cinch* *LEMO* *UMRF* *MCX* *U.FL*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_Coaxial_0_1"
+				(polyline
+					(pts
+						(xy -2.54 0) (xy -0.508 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 1.778 0)
+					(mid 0.222 -1.8079)
+					(end -1.778 -0.508)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -1.778 0.508)
+					(mid 0.2221 1.8084)
+					(end 1.778 0)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 0 0)
+					(radius 0.508)
+					(stroke
+						(width 0.2032)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -2.54) (xy 0 -1.778)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Conn_Coaxial_1_1"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "In"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 2.54)
+					(name "Ext"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "D_Capacitance_1"
 			(pin_names
 				(offset 1.016)
@@ -1606,6 +1792,12 @@
 		(uuid "79a358aa-6ef9-4cf6-8d6d-4fb7e526b2c4")
 	)
 	(junction
+		(at 86.36 38.1)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "7c0bcdf5-87f3-44cf-890c-3d46e06c73c1")
+	)
+	(junction
 		(at 165.1 101.6)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1622,6 +1814,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "95ce9616-1656-40d7-a68e-fe69de63db6e")
+	)
+	(junction
+		(at 76.2 63.5)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9854f883-a42b-4336-8130-a536b7012410")
 	)
 	(junction
 		(at 133.35 88.9)
@@ -1658,6 +1856,16 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f21898d7-cd05-4696-b93e-1a1062493ae0")
+	)
+	(wire
+		(pts
+			(xy 62.23 60.96) (xy 73.66 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0361a5d0-a49f-454d-906d-664b9e4c95a7")
 	)
 	(wire
 		(pts
@@ -1741,7 +1949,7 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 127) (xy 110.49 127)
+			(xy 101.6 127) (xy 127 127)
 		)
 		(stroke
 			(width 0)
@@ -1771,17 +1979,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 127) (xy 127 127)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2c8455cb-e378-4990-871a-7a4ae02c7e70")
-	)
-	(wire
-		(pts
-			(xy 139.7 127) (xy 148.59 127)
+			(xy 139.7 127) (xy 165.1 127)
 		)
 		(stroke
 			(width 0)
@@ -1818,6 +2016,16 @@
 			(type default)
 		)
 		(uuid "36d84860-2a3d-4de5-bfed-18bff3dbca1a")
+	)
+	(wire
+		(pts
+			(xy 165.1 114.3) (xy 181.61 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37b89c6f-f544-41ef-90d0-06ddfa16675b")
 	)
 	(wire
 		(pts
@@ -1911,6 +2119,16 @@
 	)
 	(wire
 		(pts
+			(xy 50.8 63.5) (xy 76.2 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "672e7fb1-583a-4170-bc27-4210afd7a2ff")
+	)
+	(wire
+		(pts
 			(xy 139.7 134.62) (xy 139.7 127)
 		)
 		(stroke
@@ -1981,6 +2199,16 @@
 	)
 	(wire
 		(pts
+			(xy 73.66 60.96) (xy 73.66 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f5b4233-af94-4447-aefd-5160f1d6f798")
+	)
+	(wire
+		(pts
 			(xy 101.6 127) (xy 101.6 134.62)
 		)
 		(stroke
@@ -1991,13 +2219,23 @@
 	)
 	(wire
 		(pts
-			(xy 76.2 38.1) (xy 127 38.1)
+			(xy 76.2 38.1) (xy 86.36 38.1)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "90b8af0a-bd0a-4604-a453-83e8581ba270")
+	)
+	(wire
+		(pts
+			(xy 71.12 55.88) (xy 71.12 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "92694fbe-a07b-4eab-9484-9d5df0d06f0a")
 	)
 	(wire
 		(pts
@@ -2031,6 +2269,26 @@
 	)
 	(wire
 		(pts
+			(xy 67.31 55.88) (xy 71.12 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a589eada-e8c6-462a-8003-520303a4845d")
+	)
+	(wire
+		(pts
+			(xy 71.12 40.64) (xy 50.8 40.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a65bb676-b6ba-403f-9bf6-3040abcfce12")
+	)
+	(wire
+		(pts
 			(xy 101.6 88.9) (xy 101.6 101.6)
 		)
 		(stroke
@@ -2041,6 +2299,16 @@
 	)
 	(wire
 		(pts
+			(xy 50.8 40.64) (xy 50.8 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ae01b2f9-35aa-4228-b808-b3b69da3772d")
+	)
+	(wire
+		(pts
 			(xy 190.5 60.96) (xy 190.5 63.5)
 		)
 		(stroke
@@ -2048,16 +2316,6 @@
 			(type default)
 		)
 		(uuid "ae1f3bdd-ceac-4ae6-8561-6434a1951448")
-	)
-	(wire
-		(pts
-			(xy 165.1 114.3) (xy 181.61 114.3)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b54fcb55-f577-48ac-881a-25f11e63537b")
 	)
 	(wire
 		(pts
@@ -2078,16 +2336,6 @@
 			(type default)
 		)
 		(uuid "c1a7cdfe-c3d1-4220-8293-54c1372c9b27")
-	)
-	(wire
-		(pts
-			(xy 156.21 127) (xy 165.1 127)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "c341a164-16dc-4927-b98e-29f63d8b954f")
 	)
 	(wire
 		(pts
@@ -2201,6 +2449,26 @@
 	)
 	(wire
 		(pts
+			(xy 86.36 35.56) (xy 86.36 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e8f63cfb-2c85-41b5-b699-9682a9b1863e")
+	)
+	(wire
+		(pts
+			(xy 52.07 95.25) (xy 53.34 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ee121db4-095a-407d-9ec8-e2192f6e249a")
+	)
+	(wire
+		(pts
 			(xy 101.6 114.3) (xy 101.6 127)
 		)
 		(stroke
@@ -2211,6 +2479,16 @@
 	)
 	(wire
 		(pts
+			(xy 86.36 38.1) (xy 127 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f17c5c33-0421-49bf-a651-bd2ebaf348db")
+	)
+	(wire
+		(pts
 			(xy 127 38.1) (xy 127 63.5)
 		)
 		(stroke
@@ -2218,6 +2496,16 @@
 			(type default)
 		)
 		(uuid "face9131-daaa-4edb-80bc-232a40033d11")
+	)
+	(wire
+		(pts
+			(xy 73.66 35.56) (xy 86.36 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fc2a3180-c49a-4876-9533-f30fbde133cb")
 	)
 	(label "Vd2"
 		(at 101.6 120.65 0)
@@ -2407,86 +2695,6 @@
 			(project "CC_VCO"
 				(path "/6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf"
 					(reference "Q2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 114.3 127 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "2b253ddc-f062-4226-9681-14a9ccab54cc")
-		(property "Reference" "C2"
-			(at 114.3 119.38 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10n"
-			(at 114.3 121.92 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 110.49 127.9652 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 114.3 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 114.3 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "b7d79140-d361-4245-83c8-990ba8c0f462")
-		)
-		(pin "1"
-			(uuid "cf475a35-b549-44b2-9b61-1ae5a29a4901")
-		)
-		(instances
-			(project "CC_VCO"
-				(path "/6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf"
-					(reference "C2")
 					(unit 1)
 				)
 			)
@@ -2772,86 +2980,6 @@
 			(project "CC_VCO"
 				(path "/6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf"
 					(reference "Q1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 152.4 127 270)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "947d4790-9de0-42e4-a801-bbf9d47f5967")
-		(property "Reference" "C3"
-			(at 152.4 119.38 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "10n"
-			(at 152.4 121.92 90)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P5.00mm"
-			(at 148.59 127.9652 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 152.4 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Unpolarized capacitor"
-			(at 152.4 127 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "46ca2181-d6a6-4244-9c65-8488bc7423f8")
-		)
-		(pin "2"
-			(uuid "78a90da4-f410-4ca8-89ed-b4c4a443febd")
-		)
-		(instances
-			(project "CC_VCO"
-				(path "/6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf"
-					(reference "C3")
 					(unit 1)
 				)
 			)
@@ -3318,7 +3446,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "3u"
+		(property "Value" "3,3u"
 			(at 166.37 60.9599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3372,6 +3500,86 @@
 			(project "CC_VCO"
 				(path "/6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf"
 					(reference "L2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:Conn_Coaxial")
+		(at 62.23 55.88 90)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "beb4083e-81a4-4c6f-b0f7-08ce28d9265a")
+		(property "Reference" "J1"
+			(at 62.5232 49.53 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "Conn_Coaxial"
+			(at 62.5232 52.07 90)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_031-5539_Vertical"
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
+			(at 62.23 55.88 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "aab44a87-b92d-476d-bae7-6c094dd88acf")
+		)
+		(pin "1"
+			(uuid "119ae155-8cc2-48c8-a824-99082d85e58b")
+		)
+		(instances
+			(project "CC_VCO"
+				(path "/6d4b9ffa-2535-41c7-a3a6-eb62fb20bacf"
+					(reference "J1")
 					(unit 1)
 				)
 			)
@@ -3603,7 +3811,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "3u"
+		(property "Value" "3,3u"
 			(at 102.87 60.9599 0)
 			(show_name no)
 			(do_not_autoplace no)
