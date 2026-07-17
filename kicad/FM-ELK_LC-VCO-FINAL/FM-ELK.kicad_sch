@@ -1196,12 +1196,6 @@
 		)
 	)
 	(junction
-		(at 74.93 80.01)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "5d338714-26a8-43f6-84e7-30cd818d5574")
-	)
-	(junction
 		(at 83.82 96.52)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1226,7 +1220,7 @@
 		(uuid "d0a68fa6-513c-494b-a141-d38ae2b7d91d")
 	)
 	(junction
-		(at 74.93 116.84)
+		(at 71.12 116.84)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "da6d41cc-522a-48fc-a829-00fcbb5ec859")
@@ -1244,13 +1238,13 @@
 		(uuid "e3c2ab15-153a-4e91-b915-bf971393f21e")
 	)
 	(junction
-		(at 74.93 124.46)
+		(at 71.12 124.46)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "ef416ee7-5c18-452f-9b92-053d22ca7e36")
 	)
 	(junction
-		(at 66.04 130.81)
+		(at 62.23 130.81)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "efece202-b61e-4bd0-a423-b0947ce3ddca")
@@ -1261,9 +1255,15 @@
 		(color 0 0 0 0)
 		(uuid "f42dfd14-c77e-40bd-b032-4f1e39d472e0")
 	)
+	(junction
+		(at 71.12 80.01)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fe3856dd-e228-456c-ae7d-a0a9ed1c2e18")
+	)
 	(wire
 		(pts
-			(xy 74.93 102.87) (xy 74.93 80.01)
+			(xy 71.12 102.87) (xy 71.12 80.01)
 		)
 		(stroke
 			(width 0)
@@ -1283,7 +1283,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 90.17) (xy 67.31 91.44)
+			(xy 59.69 90.17) (xy 59.69 91.44)
 		)
 		(stroke
 			(width 0)
@@ -1303,7 +1303,7 @@
 	)
 	(wire
 		(pts
-			(xy 73.66 124.46) (xy 74.93 124.46)
+			(xy 69.85 124.46) (xy 71.12 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1323,7 +1323,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 130.81) (xy 66.04 133.35)
+			(xy 62.23 130.81) (xy 62.23 133.35)
 		)
 		(stroke
 			(width 0)
@@ -1343,7 +1343,17 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 129.54) (xy 66.04 130.81)
+			(xy 71.12 80.01) (xy 106.68 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a6f56fe-1828-47a7-9d97-1976e7050763")
+	)
+	(wire
+		(pts
+			(xy 62.23 129.54) (xy 62.23 130.81)
 		)
 		(stroke
 			(width 0)
@@ -1363,7 +1373,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 129.54) (xy 83.82 130.81)
+			(xy 80.01 129.54) (xy 80.01 130.81)
 		)
 		(stroke
 			(width 0)
@@ -1403,7 +1413,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 116.84) (xy 74.93 116.84)
+			(xy 62.23 116.84) (xy 71.12 116.84)
 		)
 		(stroke
 			(width 0)
@@ -1413,7 +1423,7 @@
 	)
 	(wire
 		(pts
-			(xy 83.82 130.81) (xy 66.04 130.81)
+			(xy 80.01 130.81) (xy 62.23 130.81)
 		)
 		(stroke
 			(width 0)
@@ -1443,16 +1453,6 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 80.01) (xy 106.68 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8c751117-e436-4f53-adaf-0ce3213ed619")
-	)
-	(wire
-		(pts
 			(xy 91.44 111.76) (xy 93.98 111.76)
 		)
 		(stroke
@@ -1473,7 +1473,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 124.46) (xy 76.2 124.46)
+			(xy 71.12 124.46) (xy 76.2 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1483,7 +1483,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 110.49) (xy 74.93 116.84)
+			(xy 71.12 110.49) (xy 71.12 116.84)
 		)
 		(stroke
 			(width 0)
@@ -1503,7 +1503,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 80.01) (xy 74.93 80.01)
+			(xy 59.69 80.01) (xy 71.12 80.01)
 		)
 		(stroke
 			(width 0)
@@ -1533,7 +1533,7 @@
 	)
 	(wire
 		(pts
-			(xy 66.04 119.38) (xy 66.04 116.84)
+			(xy 62.23 119.38) (xy 62.23 116.84)
 		)
 		(stroke
 			(width 0)
@@ -1603,7 +1603,7 @@
 	)
 	(wire
 		(pts
-			(xy 74.93 116.84) (xy 74.93 124.46)
+			(xy 71.12 116.84) (xy 71.12 124.46)
 		)
 		(stroke
 			(width 0)
@@ -1620,6 +1620,16 @@
 			(type default)
 		)
 		(uuid "e2d5b626-4880-4b0e-bc32-67f8622da6d1")
+	)
+	(wire
+		(pts
+			(xy 80.01 129.54) (xy 83.82 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e5dc731a-bdd1-4672-a9ed-fc539bbadcd8")
 	)
 	(wire
 		(pts
@@ -1842,7 +1852,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "6.89"
+		(property "Value" "5.33"
 			(at 118.11 86.2301 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1937,7 +1947,7 @@
 	)
 	(symbol
 		(lib_id "Transistor_FET:BS170")
-		(at 68.58 124.46 0)
+		(at 64.77 124.46 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -1948,7 +1958,7 @@
 		(dnp no)
 		(uuid "1619bd3d-33fe-4ebb-87e1-8b064cfbf432")
 		(property "Reference" "Q4"
-			(at 62.23 123.1899 0)
+			(at 58.42 123.1899 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1959,7 +1969,7 @@
 			)
 		)
 		(property "Value" "BS170"
-			(at 62.23 125.7299 0)
+			(at 58.42 125.7299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1970,7 +1980,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_THT:TO-92_Inline"
-			(at 63.5 126.365 0)
+			(at 59.69 126.365 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1983,7 +1993,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.onsemi.com/pub/Collateral/BS170-D.PDF"
-			(at 63.5 128.27 0)
+			(at 59.69 128.27 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1995,7 +2005,7 @@
 			)
 		)
 		(property "Description" "0.5A Id, 60V Vds, N-Channel MOSFET, TO-92"
-			(at 68.58 124.46 0)
+			(at 64.77 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2006,7 +2016,7 @@
 			)
 		)
 		(property "Sim.Library" "elk.lib"
-			(at 68.58 124.46 0)
+			(at 64.77 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2017,7 +2027,7 @@
 			)
 		)
 		(property "Sim.Name" "BS170/PLP"
-			(at 68.58 124.46 0)
+			(at 64.77 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2028,7 +2038,7 @@
 			)
 		)
 		(property "Sim.Device" "SUBCKT"
-			(at 68.58 124.46 0)
+			(at 64.77 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2039,7 +2049,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=1 2=2 3=3"
-			(at 68.58 124.46 0)
+			(at 64.77 124.46 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2201,7 +2211,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 66.04 133.35 0)
+		(at 62.23 133.35 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2212,7 +2222,7 @@
 		(fields_autoplaced yes)
 		(uuid "454ff862-f637-48f5-940d-fb68ef3340a1")
 		(property "Reference" "#PWR01"
-			(at 66.04 139.7 0)
+			(at 62.23 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2223,7 +2233,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 66.04 138.43 0)
+			(at 62.23 138.43 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2233,7 +2243,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 66.04 133.35 0)
+			(at 62.23 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2244,7 +2254,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 66.04 133.35 0)
+			(at 62.23 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2255,7 +2265,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 66.04 133.35 0)
+			(at 62.23 133.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2279,7 +2289,7 @@
 	)
 	(symbol
 		(lib_id "Simulation_SPICE:VDC")
-		(at 67.31 85.09 0)
+		(at 59.69 85.09 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2290,7 +2300,7 @@
 		(fields_autoplaced yes)
 		(uuid "58f6302a-95d5-4508-bb34-92d96e40da51")
 		(property "Reference" "Vdd1"
-			(at 71.12 83.6901 0)
+			(at 63.5 83.6901 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2301,7 +2311,7 @@
 			)
 		)
 		(property "Value" "10.05"
-			(at 71.12 86.2301 0)
+			(at 63.5 86.2301 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2312,7 +2322,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 67.31 85.09 0)
+			(at 59.69 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2323,7 +2333,7 @@
 			)
 		)
 		(property "Datasheet" "https://ngspice.sourceforge.io/docs/ngspice-html-manual/manual.xhtml#sec_Independent_Sources_for"
-			(at 67.31 85.09 0)
+			(at 59.69 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2334,7 +2344,7 @@
 			)
 		)
 		(property "Description" "Voltage source, DC"
-			(at 67.31 85.09 0)
+			(at 59.69 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2345,7 +2355,7 @@
 			)
 		)
 		(property "Sim.Pins" "1=+ 2=-"
-			(at 67.31 85.09 0)
+			(at 59.69 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2356,7 +2366,7 @@
 			)
 		)
 		(property "Sim.Type" "DC"
-			(at 67.31 85.09 0)
+			(at 59.69 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2367,7 +2377,7 @@
 			)
 		)
 		(property "Sim.Device" "V"
-			(at 67.31 85.09 0)
+			(at 59.69 85.09 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2394,171 +2404,8 @@
 		)
 	)
 	(symbol
-		(lib_id "Device:L")
-		(at 106.68 86.36 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6401c8ee-734b-4032-b67c-c713368dd4f8")
-		(property "Reference" "L3"
-			(at 102.616 83.82 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "3.3u"
-			(at 102.616 85.852 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 106.68 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 106.68 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Inductor"
-			(at 106.68 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "0230974d-526b-4671-89f8-699df7f9aaf8")
-		)
-		(pin "1"
-			(uuid "1c38c908-3c89-4bf6-a886-8fca41feab73")
-		)
-		(instances
-			(project "FM-ELK"
-				(path "/6791fa25-93b5-4f72-a027-059e3d99424e"
-					(reference "L3")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:L")
-		(at 83.82 86.36 180)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "8e9ac181-dff8-4629-9619-762295360d2a")
-		(property "Reference" "L2"
-			(at 85.09 85.0899 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "3.3u"
-			(at 85.09 87.6299 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" ""
-			(at 83.82 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 83.82 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Inductor"
-			(at 83.82 86.36 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "2"
-			(uuid "28cfe7ee-9f5c-4cae-a3c9-c1485a386976")
-		)
-		(pin "1"
-			(uuid "baf1bde0-c736-4823-96ca-0a3962286912")
-		)
-		(instances
-			(project "FM-ELK"
-				(path "/6791fa25-93b5-4f72-a027-059e3d99424e"
-					(reference "L2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "power:GND")
-		(at 67.31 91.44 0)
+		(at 59.69 91.44 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -2569,7 +2416,7 @@
 		(fields_autoplaced yes)
 		(uuid "92557268-9782-4fe5-bc74-e64df73f5fdc")
 		(property "Reference" "#PWR03"
-			(at 67.31 97.79 0)
+			(at 59.69 97.79 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2580,7 +2427,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 67.31 96.52 0)
+			(at 59.69 96.52 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2590,7 +2437,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 67.31 91.44 0)
+			(at 59.69 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2601,7 +2448,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 67.31 91.44 0)
+			(at 59.69 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2612,7 +2459,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 67.31 91.44 0)
+			(at 59.69 91.44 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2629,6 +2476,170 @@
 			(project "FM-ELK"
 				(path "/6791fa25-93b5-4f72-a027-059e3d99424e"
 					(reference "#PWR03")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 106.68 86.36 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "95fa11b7-099a-443c-a06b-635e96d80aeb")
+		(property "Reference" "L2"
+			(at 107.95 85.0899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "3.3u"
+			(at 107.95 87.6299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 106.68 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 106.68 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Inductor"
+			(at 106.68 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "128b5efc-0eb9-4412-b667-c99c025d4d77")
+		)
+		(pin "2"
+			(uuid "7483358e-3402-4da8-8298-646d01bc075d")
+		)
+		(instances
+			(project "FM-ELK"
+				(path "/6791fa25-93b5-4f72-a027-059e3d99424e"
+					(reference "L2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 83.82 86.36 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a65b18b2-e2a9-4f07-81ba-4f943196b304")
+		(property "Reference" "L1"
+			(at 85.09 85.0899 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "3.3u"
+			(at 85.09 87.6299 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" ""
+			(at 83.82 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 83.82 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Inductor"
+			(at 83.82 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "76e57112-52e7-4ddd-ba19-a6bedcf4463a")
+		)
+		(pin "2"
+			(uuid "b7f0c47a-c100-4941-913a-8468111df0e6")
+		)
+		(instances
+			(project "FM-ELK"
+				(path "/6791fa25-93b5-4f72-a027-059e3d99424e"
+					(reference "L1")
 					(unit 1)
 				)
 			)
@@ -2903,7 +2914,7 @@
 		(dnp no)
 		(uuid "d77453cc-0715-4b59-a229-be80a8766955")
 		(property "Reference" "Q2"
-			(at 80.01 110.4899 0)
+			(at 79.756 110.49 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2914,7 +2925,7 @@
 			)
 		)
 		(property "Value" "BS170"
-			(at 80.01 113.0299 0)
+			(at 79.756 113.03 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3024,7 +3035,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 74.93 106.68 180)
+		(at 71.12 106.68 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3034,7 +3045,7 @@
 		(dnp no)
 		(uuid "daf18bb8-919d-47b9-a65f-43650e86d486")
 		(property "Reference" "R4"
-			(at 75.946 110.744 90)
+			(at 72.136 110.744 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3043,8 +3054,8 @@
 				)
 			)
 		)
-		(property "Value" "510k"
-			(at 74.93 106.934 90)
+		(property "Value" "1500k"
+			(at 71.12 106.934 90)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3054,7 +3065,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 76.708 106.68 90)
+			(at 72.898 106.68 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3065,7 +3076,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 74.93 106.68 0)
+			(at 71.12 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3076,7 +3087,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 74.93 106.68 0)
+			(at 71.12 106.68 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

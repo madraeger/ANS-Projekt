@@ -1,5 +1,5 @@
 {
-  "custom_cursors": 1,
+  "custom_cursors": 2,
   "last_sch_text_sim_command": "",
   "tabs": [
     {
@@ -15,7 +15,7 @@
     {
       "analysis": "TRAN",
       "commands": [
-        ".tran 1n 50u",
+        ".tran 1n 200u",
         ".kicad adjustpaths",
         ".save all",
         ".probe alli",
@@ -38,7 +38,12 @@
         {
           "color": "rgb(166, 86, 40)",
           "cursor1": {
-            "position": 3.7351028187016654e-05,
+            "position": 0.0001802853793940949,
+            "x_format": "3~s",
+            "y_format": "3~V"
+          },
+          "cursor2": {
+            "position": 0.00018048201170494532,
             "x_format": "3~s",
             "y_format": "3~V"
           },
