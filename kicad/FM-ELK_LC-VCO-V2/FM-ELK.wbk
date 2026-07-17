@@ -15,7 +15,7 @@
     {
       "analysis": "TRAN",
       "commands": [
-        ".tran 1n 10u",
+        ".tran 1n 50u",
         ".kicad adjustpaths",
         ".save all",
         ".probe alli",
@@ -24,7 +24,7 @@
       "dottedSecondary": true,
       "legend": {
         "x": 188,
-        "y": 457
+        "y": 338
       },
       "margins": {
         "bottom": 45,
@@ -38,7 +38,7 @@
         {
           "color": "rgb(166, 86, 40)",
           "cursor1": {
-            "position": 4.099469523909845e-06,
+            "position": 3.7351028187016654e-05,
             "x_format": "3~s",
             "y_format": "3~V"
           },

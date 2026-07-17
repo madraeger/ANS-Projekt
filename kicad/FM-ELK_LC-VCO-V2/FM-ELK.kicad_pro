@@ -704,7 +704,7 @@
         "uuid": "6791fa25-93b5-4f72-a027-059e3d99424e"
       }
     ],
-    "used_designators": "Q3-4",
+    "used_designators": "Q3-4,R1-2,Vdd1,Vtune1",
     "variants": []
   },
   "sheets": [
