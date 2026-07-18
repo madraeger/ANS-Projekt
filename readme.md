@@ -79,33 +79,11 @@ Der VCO setzt sich aus folgenden Funktionsgruppen zusammen:
 | Stromquelle | `Q3`, `Q4`, `R4` | Einstellung und Begrenzung des Arbeitspunktstroms |
 | Ausgang | rechter Schwingkreisknoten | Ausgabe des hochfrequenten Signals |
 
-Die beiden MOSFETs `Q1` und `Q2` sind über Kreuz miteinander gekoppelt. Das Gate jedes Transistors ist mit dem Drain des jeweils anderen Transistors verbunden.
+Der LC-Schwingkreis bestimmt die Ausgangsfrequenz. Das Cross-Coupled-Transistorpaar führt dem Schwingkreis die durch reale Verluste abgegebene Energie wieder zu. Die Varaktordioden ermöglichen die spannungsabhängige Frequenzeinstellung über `Vtune`.
 
-Durch diese Rückkopplung erzeugt das Transistorpaar einen negativen differentiellen Widerstand. Dieser wirkt den realen Verlusten des LC-Schwingkreises entgegen und ermöglicht eine dauerhafte Schwingung.
+Als Stromquelle wird ein einfacher NMOS-Stromspiegel verwendet. Dieser stellt den Arbeitspunktstrom für das Cross-Coupled-Transistorpaar bereit.
 
-Die beiden Schwingkreisknoten schwingen näherungsweise gegenphasig. Steigt die Spannung an einem Knoten an, fällt sie am anderen Knoten ab. Das vollständige differentielle Ausgangssignal ergibt sich aus der Spannungsdifferenz zwischen beiden Knoten:
-
-$$
-u_\text{diff}(t)=u_1(t)-u_2(t)
-$$
-
-In der aktuellen Schaltung wird das Ausgangssignal nur an einem der beiden Schwingkreisknoten gegen Masse abgegriffen. Der herausgeführte Ausgang ist damit Single-Ended, obwohl der Oszillator intern differentiell arbeitet.
-
-Die Resonanzfrequenz des Schwingkreises kann näherungsweise mit folgender Gleichung beschrieben werden:
-
-$$
-f_0 \approx \frac{1}{2\pi\sqrt{L_\text{eff}C_\text{eff}}}
-$$
-
-Dabei sind:
-
-- $L_\text{eff}$ die wirksame Induktivität
-- $C_\text{eff}$ die wirksame Kapazität einschließlich parasitärer Kapazitäten
-
-Die Kapazität der Varaktordioden `D1` und `D2` wird über die Abstimmspannung `Vtune` verändert. Dadurch verändert sich die Resonanzfrequenz und somit die Ausgangsfrequenz des Oszillators.
-
-Für die Stromversorgung des Cross-Coupled-Paares wird ein einfacher NMOS-Stromspiegel eingesetzt. Dieser besteht aus den Transistoren `Q3` und `Q4` sowie dem Widerstand `R4`.
-
+Die einzelnen Funktionsgruppen werden in den folgenden Abschnitten genauer beschrieben.
 ### Cross-Coupled-Transistorpaar
 
 Die MOSFETs `Q1` und `Q2` sind über Kreuz miteinander gekoppelt. Das Gate eines Transistors ist jeweils mit dem Drain des anderen Transistors verbunden.
@@ -230,11 +208,7 @@ Der Stromspiegel stabilisiert damit den Arbeitspunkt der Schaltung, stellt jedoc
 Für die Frequenzmodulation wird der Abstimmspannung eine Gleichspannung und ein zeitlich veränderliches Modulationssignal überlagert:
 
 $$
-V_\text{tune}(t)
-=
-V_\text{DC}
-+
-v_\text{mod}(t)
+V_\text{tune}(t) = V_\text{DC} + v_\text{mod}(t)
 $$
 
 Die Gleichspannung $V_\text{DC}$ legt die Mittenfrequenz fest. Das Modulationssignal $v_\text{mod}(t)$ verändert die Momentanfrequenz um diese Mittenfrequenz.
@@ -242,11 +216,7 @@ Die Gleichspannung $V_\text{DC}$ legt die Mittenfrequenz fest. Das Modulationssi
 Bei einer annähernd linearen VCO-Kennlinie gilt näherungsweise:
 
 $$
-f_\text{out}(t)
-=
-f_\text{Mitte}
-+
-K_\text{VCO}\cdot v_\text{mod}(t)
+f_\text{out}(t) = f_\text{Mitte} + K_\text{VCO}\cdot v_\text{mod}(t)
 $$
 
 Die Amplitude des Modulationssignals bestimmt damit den Frequenzhub. Die Frequenz des Modulationssignals bestimmt, wie schnell die Ausgangsfrequenz zwischen ihren Grenzwerten verändert wird.
@@ -310,48 +280,296 @@ Die Kondensatoren sollten auf der späteren Platine möglichst nah an den Versor
 
 ## Aktueller Stand
 
-Der VCO wurde sowohl in SPICE simuliert als auch praktisch aufgebaut. Über die Abstimmspannung `Vtune` lässt sich die Ausgangsfrequenz nahezu linear einstellen.
+Der VCO wurde sowohl in **SPICE simuliert** als auch **praktisch aufgebaut**. Der geforderte nutzbare Frequenzbereich von ungefähr **5 MHz bis 6 MHz** wird bereits erreicht.
 
-Der bisher erreichte Frequenzbereich liegt zwischen ungefähr **5,01 MHz und 6,00 MHz**. Dafür wird `Vtune` zwischen ungefähr **5,33 V und 6,89 V** verändert. Die Mittenfrequenz von etwa **5,5 MHz** wird ebenfalls erreicht.
+Die Ausgangsfrequenz wird über die Abstimmspannung `Vtune` eingestellt. Mit steigender Abstimmspannung sinkt die Ausgangsfrequenz. Die aufgenommenen Messwerte zeigen dabei einen nahezu linearen Zusammenhang zwischen `Vtune` und der Ausgangsfrequenz.
 
-Die Ausgangsamplitude bleibt über einen großen Teil des Frequenzbereichs relativ stabil, nimmt jedoch in Richtung **6 MHz** ab.
+### Gemessene f/V-Kennlinie
 
-Für den NMOS-Stromspiegel wird im realen Aufbau ein Widerstand von **51 kΩ** verwendet. In der SPICE-Simulation ist ein deutlich größerer Widerstand notwendig, da es bei kleineren Widerstandswerten zu Verzerrungen des simulierten Ausgangssignals kommt.
+Die Kennlinie wurde aufgenommen, indem die Gleichspannung `Vtune` schrittweise verändert und die jeweilige Ausgangsfrequenz gemessen wurde.
+
+| `Vtune` in V | Frequenz in MHz |
+|---:|---:|
+| 5,33 | 6,00 |
+| 5,50 | 5,90 |
+| 5,63 | 5,83 |
+| 5,82 | 5,69 |
+| 5,92 | 5,61 |
+| 6,06 | 5,52 |
+| 6,24 | 5,42 |
+| 6,36 | 5,33 |
+| 6,54 | 5,21 |
+| 6,70 | 5,11 |
+| 6,89 | 5,01 |
+
+<p align="center">
+  <img
+    src="python/plots/f_V_Kennlinie.png"
+    alt="Gemessene f/V-Kennlinie des VCOs"
+    width="850">
+</p>
+
+<p align="center">
+  <em>Gemessene Ausgangsfrequenz in Abhängigkeit von der Abstimmspannung Vtune</em>
+</p>
+
+Die Kennlinie lässt sich im betrachteten Bereich näherungsweise durch folgende lineare Funktion beschreiben:
+
+$$
+f_\text{out}
+\approx
+-0{,}650\,
+\frac{\text{MHz}}{\text{V}}
+\cdot V_\text{tune}
++
+9{,}468\,\text{MHz}
+$$
+
+Das Bestimmtheitsmaß der linearen Näherung beträgt ungefähr:
+
+$$
+R^2 \approx 0{,}9989
+$$
+
+Damit zeigt die aufgenommene Kennlinie nur geringe Abweichungen von einem linearen Verlauf.
+
+Die VCO-Empfindlichkeit beträgt näherungsweise:
+
+$$
+K_\text{VCO}
+\approx
+-0{,}650\,
+\frac{\text{MHz}}{\text{V}}
+$$
+
+Das negative Vorzeichen bedeutet, dass die Ausgangsfrequenz mit steigender Abstimmspannung abnimmt.
+
+Die Mittenfrequenz von ungefähr **5,5 MHz** wird bei einer Abstimmspannung von etwa **6,1 V** erreicht.
+
+Für den gesamten Frequenzbereich von ungefähr **5 MHz bis 6 MHz** wird eine Spannungsänderung von etwa
+
+$$
+\Delta V_\text{tune}
+=
+6{,}89\,\text{V}
+-
+5{,}33\,\text{V}
+=
+1{,}56\,\text{V}
+$$
+
+benötigt.
+
+Bezogen auf den Arbeitspunkt bei ungefähr **6,1 V** entspricht dies einem benötigten Spannungshub von ungefähr:
+
+$$
+V_\text{tune}
+\approx
+6{,}1\,\text{V}
+\pm
+0{,}78\,\text{V}
+$$
+
+Der ursprünglich vorgesehene Eingangsspannungsbereich von ungefähr **±0,5 V** reicht daher ohne eine zusätzliche Anpassung nicht für den vollständigen Frequenzbereich aus.
+
+### Gemessene Ausgangssignale
+
+Die folgenden Abbildungen zeigen jeweils die letzten drei Perioden des mit dem Oszilloskop aufgenommenen Ausgangssignals.
+
+#### Messung bei 5 MHz
+
+<p align="center">
+  <img
+    src="python/plots/oszilloskop_5_MHz.png"
+    alt="Oszilloskopmessung des Ausgangssignals bei 5 MHz"
+    width="850">
+</p>
+
+<p align="center">
+  <em>Gemessenes Ausgangssignal bei ungefähr 5 MHz</em>
+</p>
+
+#### Messung bei 5,5 MHz
+
+<p align="center">
+  <img
+    src="python/plots/oszilloskop_5_5_MHz.png"
+    alt="Oszilloskopmessung des Ausgangssignals bei 5,5 MHz"
+    width="850">
+</p>
+
+<p align="center">
+  <em>Gemessenes Ausgangssignal bei ungefähr 5,5 MHz</em>
+</p>
+
+#### Messung bei 6 MHz
+
+<p align="center">
+  <img
+    src="python/plots/oszilloskop_6_MHz.png"
+    alt="Oszilloskopmessung des Ausgangssignals bei 6 MHz"
+    width="850">
+</p>
+
+<p align="center">
+  <em>Gemessenes Ausgangssignal bei ungefähr 6 MHz</em>
+</p>
+
+Die gemessenen Signale besitzen über den untersuchten Frequenzbereich eine weitgehend sinusförmige Signalform.
+
+Die Ausgangsamplitude ist bei **5 MHz** und **5,5 MHz** ähnlich groß. In Richtung **6 MHz** nimmt die Amplitude jedoch sichtbar ab. Die Ursache dafür muss im weiteren Projektverlauf noch untersucht werden.
+
+### Simulation und Vergleich
+
+Für die Frequenzen **5 MHz**, **5,5 MHz** und **6 MHz** wurden die simulierten Ausgangssignale mit den Oszilloskopmessungen verglichen.
+
+
+<details>
+  <summary><strong>Simulation und Vergleich bei 5 MHz anzeigen</strong></summary>
+
+  #### Simulation bei 5 MHz
+
+  <p align="center">
+    <img
+      src="python/plots/simulation_5_MHz.png"
+      alt="Simuliertes Ausgangssignal bei 5 MHz"
+      width="850">
+  </p>
+
+  #### Vergleich bei 5 MHz
+
+  <p align="center">
+    <img
+      src="python/plots/vergleich_5_MHz.png"
+      alt="Vergleich zwischen Simulation und Messung bei 5 MHz"
+      width="900">
+  </p>
+</details>
+
+<details>
+  <summary><strong>Simulation und Vergleich bei 5,5 MHz anzeigen</strong></summary>
+
+  #### Simulation bei 5,5 MHz
+
+  <p align="center">
+    <img
+      src="python/plots/simulation_5_5_MHz.png"
+      alt="Simuliertes Ausgangssignal bei 5,5 MHz"
+      width="850">
+  </p>
+
+  #### Vergleich bei 5,5 MHz
+
+  <p align="center">
+    <img
+      src="python/plots/vergleich_5_5_MHz.png"
+      alt="Vergleich zwischen Simulation und Messung bei 5,5 MHz"
+      width="900">
+  </p>
+</details>
+
+<details>
+  <summary><strong>Simulation und Vergleich bei 6 MHz anzeigen</strong></summary>
+
+  #### Simulation bei 6 MHz
+
+  <p align="center">
+    <img
+      src="python/plots/simulation_6_MHz.png"
+      alt="Simuliertes Ausgangssignal bei 6 MHz"
+      width="850">
+  </p>
+
+  #### Vergleich bei 6 MHz
+
+  <p align="center">
+    <img
+      src="python/plots/vergleich_6_MHz.png"
+      alt="Vergleich zwischen Simulation und Messung bei 6 MHz"
+      width="900">
+  </p>
+</details>
+
+Die normierten Vergleichsplots zeigen, dass Simulation und Messung grundsätzlich eine ähnliche periodische Signalform besitzen.
+
+Es treten jedoch deutliche Unterschiede auf:
+
+- Die Simulation besitzt einen großen Gleichspannungsanteil nahe der Versorgungsspannung.
+- Das gemessene Signal liegt dagegen näherungsweise um 0 V.
+- Die simulierte und die gemessene Ausgangsamplitude unterscheiden sich deutlich.
+- Die Signalformen stimmen nicht vollständig überein.
+- Bei 6 MHz nimmt die gemessene Ausgangsamplitude stärker ab.
+- Kleine Phasenabweichungen bleiben trotz der Phasenanpassung sichtbar.
+
+Die Simulation beschreibt damit das grundsätzliche Schwingverhalten, bildet den realen Arbeitspunkt und die tatsächliche Ausgangsamplitude jedoch nur eingeschränkt ab.
+
+### Unterschiede zwischen Simulation und realem Aufbau
+
+Für den NMOS-Stromspiegel werden in der Simulation und im realen Aufbau unterschiedliche Widerstandswerte benötigt.
+
+Im realen Aufbau wird für `R4` ein Widerstand von **51 kΩ** verwendet. Bei größeren Widerständen ist der Strom zu gering, sodass der Oszillator nicht zuverlässig anschwingt.
+
+In der SPICE-Simulation wird dagegen ein größerer Widerstand benötigt, da kleinere Widerstandswerte dort zu stärkeren Verzerrungen des Ausgangssignals führen.
+
+Zusätzlich wurden im realen Aufbau Kondensatoren parallel zur Spannungsversorgung eingesetzt. Diese dienen als Abblock- und Stützkondensatoren und reduzieren hochfrequente Störungen sowie kurzzeitige Spannungsschwankungen.
+
+Die Unterschiede zwischen Simulation und Messung können unter anderem durch folgende Einflüsse verursacht werden:
+
+- vereinfachte SPICE-Modelle der MOSFETs
+- vereinfachtes Kapazitätsmodell der Varaktordioden
+- Bauteiltoleranzen
+- parasitäre Kapazitäten und Induktivitäten
+- Innenwiderstände der Induktivitäten
+- Aufbau auf dem Steckbrett
+- Leitungs- und Kontaktwiderstände
+- Belastung durch Tastkopf und Oszilloskop
+- Unterschiede bei der Versorgungsspannung
+- Temperaturabhängigkeit der Bauteile
+
+### Platinenlayout
 
 Eine erste Platine wurde bereits in KiCad erstellt. Das Layout muss jedoch noch an den aktuellen Schaltungsstand angepasst und weiter optimiert werden.
 
+Besonders berücksichtigt werden müssen:
+
+- möglichst kurze hochfrequente Signalwege
+- kompakter Aufbau des LC-Schwingkreises
+- geeignete Masseführung
+- Platzierung der Abblockkondensatoren nahe an den MOSFETs
+- Entkopplung des Ausgangs vom Schwingkreis
+- Ein- und Ausgangsanpassung
+- BNC-Anschlüsse
+- mögliche Ausgangspufferung
+
 ## Noch nicht vollständig erfüllte Anforderungen
 
-Folgende Anforderungen müssen noch untersucht beziehungsweise umgesetzt werden:
+Folgende Anforderungen sind derzeit noch nicht vollständig umgesetzt oder müssen weiter untersucht werden:
 
-- Anpassung des Abstimmeingangs an das vorgegebene Eingangssignal von ungefähr **±0,5 V**
-- genauere Bestimmung der nichtlinearen Abweichungen der Frequenzkennlinie
+- Anpassung des Modulationseingangs an ein Eingangssignal von ungefähr **±0,5 V**
 - Untersuchung der Bandbreite des Modulationseingangs
-- Stabilisierung der Ausgangsamplitude in Richtung **6 MHz**
+- weitere Stabilisierung der Ausgangsamplitude in Richtung **6 MHz**
 - Einkopplung des Modulationssignals zusammen mit einer einstellbaren Gleichspannung
 - Anpassung des Eingangs auf **50 Ω**
-- Anpassung des Ausgangs auf **50 Ω**
 - Ergänzung einer Ausgangspufferung zur Entkopplung des Schwingkreises
-- kurzschlusssichere Auslegung des Ausgangs
+- Anpassung des Ausgangs auf **50 Ω**
+- möglichst kurzschlusssichere Auslegung des Ausgangs
 - Untersuchung der Frequenzdrift und der Temperaturabhängigkeit
-- Anpassung und Optimierung des bereits erstellten Platinenlayouts
+- Anpassung und Optimierung des Platinenlayouts
 - Aufbau und Prüfung der endgültigen Platine
-- Umsetzung von jeweils einem Ein- und Ausgang über BNC-Buchsen
-- Prüfung der Schaltung unter realer 50-Ω-Belastung
+- Umsetzung von Ein- und Ausgang über BNC-Buchsen
+- Prüfung der Schaltung unter realer **50-Ω-Belastung**
 
-## Ausführliche Dokumentation
+## Ergänzende Dokumentation
 
-Eine ausführliche Darstellung des Entwicklungsstands befindet sich in einem separaten Quarto-Bericht innerhalb dieses Repositorys.
+Zusätzlich zur README befindet sich im Repository ein Quarto-Bericht mit einer ausführlicheren Dokumentation.
 
-Der Bericht enthält unter anderem:
+Während die README einen Überblick über den Aufbau und die wichtigsten Messergebnisse gibt, enthält der Quarto-Bericht insbesondere:
 
-- die vollständige Kennlinie zwischen `Vtune` und Ausgangsfrequenz
-- grafische Auswertung der Messwerte
-- simulierte Ausgangssignale
-- am Oszilloskop aufgenommene Ausgangssignale
-- Vergleich zwischen Simulation und realem Aufbau
-- Untersuchung der Ausgangsamplitude
-- Beschreibung der Unterschiede zwischen den Bauteilwerten in der Simulation und im realen Aufbau
+- eine ausführlichere Beschreibung der Simulationseinstellungen
+- Informationen zum Einlesen und Verarbeiten der CSV-Dateien
+- die detaillierte Auswertung der Messdaten
+- zusätzliche Vergleiche zwischen Simulation und realem Aufbau
+- weitere Erläuterungen zu Abweichungen und möglichen Fehlerquellen
 
 ## Verwendete Software
 
