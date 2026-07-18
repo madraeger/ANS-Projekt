@@ -349,13 +349,7 @@ Die Mittenfrequenz von ungefähr **5,5 MHz** wird bei einer Abstimmspannung von 
 Für den gesamten Frequenzbereich von ungefähr **5 MHz bis 6 MHz** wird eine Spannungsänderung von etwa
 
 $$
-\Delta V_\text{tune}
-=
-6{,}89\,\text{V}
--
-5{,}33\,\text{V}
-=
-1{,}56\,\text{V}
+\Delta V_\text{tune} = 6{,}89\,\text{V} - 5{,}33\,\text{V} = 1{,}56\,\text{V}
 $$
 
 benötigt.
