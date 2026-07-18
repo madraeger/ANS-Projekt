@@ -526,13 +526,9 @@ Eine erste Platine wurde bereits in KiCad erstellt. Das Layout muss jedoch noch 
 
 Besonders berücksichtigt werden müssen:
 
-- möglichst kurze hochfrequente Signalwege
-- kompakter Aufbau des LC-Schwingkreises
-- geeignete Masseführung
 - Platzierung der Abblockkondensatoren nahe an den MOSFETs
 - Entkopplung des Ausgangs vom Schwingkreis
 - Ein- und Ausgangsanpassung
-- BNC-Anschlüsse
 - mögliche Ausgangspufferung
 
 ## Noch nicht vollständig erfüllte Anforderungen
@@ -550,20 +546,6 @@ Folgende Anforderungen sind derzeit noch nicht vollständig umgesetzt oder müss
 - Untersuchung der Frequenzdrift und der Temperaturabhängigkeit
 - Anpassung und Optimierung des Platinenlayouts
 - Aufbau und Prüfung der endgültigen Platine
-- Umsetzung von Ein- und Ausgang über BNC-Buchsen
-- Prüfung der Schaltung unter realer **50-Ω-Belastung**
-
-## Ergänzende Dokumentation
-
-Zusätzlich zur README befindet sich im Repository ein Quarto-Bericht mit einer ausführlicheren Dokumentation.
-
-Während die README einen Überblick über den Aufbau und die wichtigsten Messergebnisse gibt, enthält der Quarto-Bericht insbesondere:
-
-- eine ausführlichere Beschreibung der Simulationseinstellungen
-- Informationen zum Einlesen und Verarbeiten der CSV-Dateien
-- die detaillierte Auswertung der Messdaten
-- zusätzliche Vergleiche zwischen Simulation und realem Aufbau
-- weitere Erläuterungen zu Abweichungen und möglichen Fehlerquellen
 
 ## Verwendete Software
 
