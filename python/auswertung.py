@@ -17,6 +17,10 @@ PLOT_DIR.mkdir(exist_ok=True)
 
 N_PERIODS = 3
 
+# Darstellungsbereich der FFT. Bei einem 5-MHz-Signal reichen
+# 50 MHz aus, um mehrere Harmonische betrachten zu können.
+FFT_WINDOW_HALF_WIDTH_MHZ = 1
+
 MESSUNGEN = {
     "5 MHz": {
         "frequenz": 5.0e6,
@@ -482,6 +486,113 @@ def vergleich_speichern(
 
 
 
+
+# ============================================================
+# FFT der vollständigen Oszilloskopaufnahme
+# ============================================================
+
+def fft_oszilloskop_speichern(
+    zeit,
+    signal,
+    titel,
+    mittenfrequenz_hz,
+    dateiname
+):
+    """
+    Einfache FFT der vollständigen Oszilloskopaufnahme.
+
+    Es werden bewusst keine Fensterfunktion, keine Filterung,
+    keine Normierung und kein Zero-Padding verwendet.
+    """
+    if len(zeit) < 2:
+        raise ValueError(
+            "Für die FFT sind zu wenige Messpunkte vorhanden."
+        )
+
+    dt = np.median(np.diff(zeit))
+
+    if dt <= 0:
+        raise ValueError(
+            "Der Zeitabstand der Oszilloskopdaten ist ungültig."
+        )
+
+    anzahl_punkte = len(signal)
+    messdauer = anzahl_punkte * dt
+    frequenzaufloesung = 1.0 / messdauer
+
+    # Direkte FFT ohne weitere Signalverarbeitung.
+    spektrum = np.fft.rfft(signal)
+    frequenzen = np.fft.rfftfreq(
+        anzahl_punkte,
+        d=dt
+    )
+
+    # Einseitiges Amplitudenspektrum in Volt.
+    amplitude = np.abs(spektrum) / anzahl_punkte
+
+    if anzahl_punkte > 1:
+        amplitude[1:-1] *= 2.0
+
+    halbbreite_hz = FFT_WINDOW_HALF_WIDTH_MHZ * 1e6
+    untere_grenze_hz = mittenfrequenz_hz - halbbreite_hz
+    obere_grenze_hz = mittenfrequenz_hz + halbbreite_hz
+
+    auswahl = (
+        (frequenzen >= untere_grenze_hz)
+        & (frequenzen <= obere_grenze_hz)
+    )
+
+    if not np.any(auswahl):
+        raise ValueError(
+            "Im gewünschten Frequenzbereich liegt kein FFT-Stützpunkt."
+        )
+
+    frequenzen_bereich = frequenzen[auswahl]
+    amplitude_bereich = amplitude[auswahl]
+
+    peak_index = np.argmax(amplitude_bereich)
+    peak_frequenz = frequenzen_bereich[peak_index]
+    peak_amplitude = amplitude_bereich[peak_index]
+
+    plt.figure(figsize=(9, 5))
+
+    # Marker sind sinnvoll, weil die FFT nur diskrete Frequenzpunkte liefert.
+    plt.plot(
+        frequenzen_bereich / 1e6,
+        amplitude_bereich,
+        marker="o",
+        linestyle="-",
+        label="FFT",
+    )
+
+    plt.xlabel("Frequenz in MHz")
+    plt.ylabel("Amplitude in V")
+    plt.title(
+        f"FFT der Oszilloskopaufnahme bei {titel}\n"
+        f"ohne Fenster und Zero-Padding"
+    )
+    plt.xlim(
+        untere_grenze_hz / 1e6,
+        obere_grenze_hz / 1e6
+    )
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(dateiname, dpi=200)
+    plt.close()
+
+    print(
+        f"FFT {titel}: stärkster dargestellter Punkt bei "
+        f"{peak_frequenz / 1e6:.3f} MHz mit "
+        f"{peak_amplitude:.4f} V"
+    )
+    print(
+        f"Messdauer: {messdauer * 1e6:.3f} µs, "
+        f"FFT-Frequenzabstand: "
+        f"{frequenzaufloesung / 1e6:.3f} MHz"
+    )
+
+
 # ============================================================
 # f/V-Kennlinie
 # ============================================================
@@ -568,11 +679,28 @@ def main():
             tektronix=False,
         )
 
-        oszi_zeit, oszi_signal = csv_signal_laden(
+        oszi_zeit_gesamt, oszi_signal_gesamt = csv_signal_laden(
             messung["oszilloskop"],
             tektronix=True,
         )
 
+        dateiname = (
+            name.replace(" ", "_")
+            .replace(",", "_")
+        )
+
+        # Für die FFT wird ausdrücklich die vollständige
+        # Oszilloskopaufnahme verwendet.
+        fft_oszilloskop_speichern(
+            oszi_zeit_gesamt,
+            oszi_signal_gesamt,
+            name,
+            frequenz,
+            PLOT_DIR / f"fft_{dateiname}.png",
+        )
+
+        # Für die Zeitdiagramme werden weiterhin nur die letzten
+        # zwei bis drei Perioden betrachtet.
         sim_zeit, sim_signal = letzte_perioden(
             sim_zeit,
             sim_signal,
@@ -581,15 +709,10 @@ def main():
         )
 
         oszi_zeit, oszi_signal = letzte_perioden(
-            oszi_zeit,
-            oszi_signal,
+            oszi_zeit_gesamt,
+            oszi_signal_gesamt,
             frequenz,
             N_PERIODS,
-        )
-
-        dateiname = (
-            name.replace(" ", "_")
-            .replace(",", "_")
         )
 
         einzelplot_speichern(
