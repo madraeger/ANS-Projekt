@@ -23,157 +23,235 @@ Für den Frequenzmodulator wurden folgende Anforderungen vorgegeben:
 - Ausgangsspannung soll messbar sein
 - Schaltung soll möglichst kurzschlusssicher sein
 
+## Grundlagen und Aufbau des VCOs
 
+### Vom Schwingkreis zum Oszillator
 
-## Schaltungsprinzip
+Die Grundlage des VCOs bildet ein LC-Schwingkreis aus Induktivitäten und Kapazitäten. Im Schwingkreis wird Energie periodisch zwischen dem magnetischen Feld der Induktivitäten und dem elektrischen Feld der Kapazitäten ausgetauscht.
 
-Der aktuelle VCO basiert auf einer differentiellen Cross-Coupled-Oszillatorschaltung mit vier NMOS-Transistoren.
-
-Die Schaltung besteht im Wesentlichen aus:
-
-- zwei gekreuzt gekoppelten NMOS-Transistoren `Q1` und `Q2`
-- zwei NMOS-Transistoren `Q3` und `Q4` als Stromspiegel
-- zwei Induktivitäten `L1` und `L2`
-- zwei Varaktordioden `D1` und `D2`
-- einem Widerstand `R4` zur Einstellung des Referenzstroms
-- einer Versorgungsspannung `VDD`
-- einer Abstimmspannung `Vtune`
-
-## Cross-Coupled-Oszillator
-
-Die Transistoren `Q1` und `Q2` sind über Kreuz gekoppelt. Das Gate jedes Transistors ist mit dem Drain des jeweils anderen Transistors verbunden.
-
-Durch diese Rückkopplung entsteht ein negativer Widerstand. Dieser gleicht die Verluste des LC-Schwingkreises aus und ermöglicht das dauerhafte Schwingen der Schaltung.
-
-Die Ausgangsspannung kann an einem der beiden Schwingkreisknoten abgegriffen werden. Im aktuellen Schaltplan wird das Ausgangssignal am rechten Schwingkreisknoten ausgegeben.
-
-## Schwingkreis
-
-Der frequenzbestimmende Schwingkreis besteht aus:
-
-- `L1 = 3,3 µH`
-- `L2 = 3,3 µH`
-- `D1 = 1SV149`
-- `D2 = 1SV149`
-
-Die beiden Induktivitäten sind mit der Versorgungsspannung verbunden. Die Varaktordioden befinden sich zwischen den beiden Ausgangsknoten.
-
-Der gemeinsame Anschluss der Varaktordioden wird über die Spannung `Vtune` angesteuert.
-
-Die Resonanzfrequenz kann vereinfacht mit folgender Gleichung beschrieben werden:
+Die Resonanzfrequenz kann näherungsweise mit
 
 $$
-f_0 = \frac{1}{2\pi\sqrt{L \cdot C}}
+f_0 \approx \frac{1}{2\pi\sqrt{L_\text{eff}C_\text{eff}}}
 $$
 
-Dabei ist:
+beschrieben werden.
 
-- $L$ die wirksame Induktivität des Schwingkreises
-- $C$ die wirksame Kapazität der Varaktordioden einschließlich parasitärer Kapazitäten
+Dabei sind:
 
-Da die Kapazität der Varaktordioden von der angelegten Sperrspannung abhängt, kann die Ausgangsfrequenz über `Vtune` verändert werden.
+- $L_\text{eff}$ die wirksame Induktivität des Schwingkreises
+- $C_\text{eff}$ die gesamte wirksame Kapazität einschließlich parasitärer Kapazitäten
 
-## Varaktordioden
+Ein realer LC-Schwingkreis besitzt Verluste, beispielsweise durch die Innenwiderstände der Induktivitäten, Leiterbahnen und angeschlossene Messgeräte. Ohne zusätzliche Energiezufuhr würde die Schwingung deshalb mit der Zeit abklingen.
 
-Als Varaktordioden werden zwei Dioden vom Typ `1SV149` verwendet.
+Damit eine dauerhafte Schwingung entsteht, muss eine aktive Schaltung die Verluste des Schwingkreises ausgleichen. Dazu wird ein Teil des Ausgangssignals phasenrichtig zurückgeführt und verstärkt. Beim Einschalten reichen bereits kleine Störungen und das elektrische Rauschen aus, um eine Schwingung anzuregen. Die Frequenzanteile in der Nähe der Resonanzfrequenz werden anschließend durch die Rückkopplung verstärkt.
 
-Die Dioden sind gegensinnig beziehungsweise back-to-back angeordnet. Dadurch soll verhindert werden, dass eine der Dioden durch die hochfrequente Schwingung dauerhaft in Durchlassrichtung betrieben wird.
+Für das Anschwingen muss die Schleifenverstärkung zunächst ausreichend groß sein. Im eingeschwungenen Zustand stellt sich die Amplitude so ein, dass die zugeführte Energie den Verlusten des Schwingkreises entspricht.
 
-Eine Änderung der Abstimmspannung `Vtune` verändert die Sperrspannung der Dioden. Damit ändert sich ihre Kapazität und somit die Resonanzfrequenz des Schwingkreises.
+### Aufbau des VCOs
 
-Für die Simulation wird ein eigenes SPICE-Modell der `1SV149` verwendet, da die Diode nicht standardmäßig in ngspice enthalten ist.
+Der verwendete VCO besteht grundsätzlich aus einem differentiellen LC-Schwingkreis, einem gekreuzt gekoppelten MOSFET-Paar und einer Stromquelle.
 
-## Stromquelle
+<p align="center">
+  <img
+    src="images/vco-grundaufbau.png"
+    alt="Grundaufbau eines differentiellen LC-VCOs mit Cross-Coupled-MOSFETs"
+    width="650">
+</p>
 
-Die Transistoren `Q3` und `Q4` bilden zusammen mit `R4` einen einfachen NMOS-Stromspiegel.
+<p align="center">
+  <em>
+    Vereinfachter Aufbau eines differentiellen LC-VCOs.
+    Quelle:
+    <a href="https://analogcircuitdesign.com/voltage-controlled-oscillator/">
+      Analog Circuit Design
+    </a>
+  </em>
+</p>
 
-`Q4` ist als Referenztransistor beschaltet. Über den Widerstand `R4` wird ein Referenzstrom eingestellt. Dieser Strom wird über `Q3` gespiegelt und als gemeinsamer Strom für das Cross-Coupled-Transistorpaar verwendet.
+Der VCO setzt sich aus folgenden Funktionsgruppen zusammen:
 
-Der Stromspiegel hat folgende Aufgaben:
+| Funktionsgruppe | Bauteile der aktuellen Schaltung | Aufgabe |
+|---|---|---|
+| LC-Schwingkreis | `L1`, `L2`, `D1`, `D2` | Festlegung der Resonanzfrequenz |
+| Cross-Coupled-Paar | `Q1`, `Q2` | Ausgleich der Schwingkreisverluste |
+| Frequenzabstimmung | `D1`, `D2`, `Vtune` | Veränderung der wirksamen Kapazität |
+| Stromquelle | `Q3`, `Q4`, `R4` | Einstellung und Begrenzung des Arbeitspunktstroms |
+| Ausgang | rechter Schwingkreisknoten | Ausgabe des hochfrequenten Signals |
 
-- Einstellung des Arbeitspunktes
+Die beiden MOSFETs `Q1` und `Q2` sind über Kreuz miteinander gekoppelt. Das Gate jedes Transistors ist mit dem Drain des jeweils anderen Transistors verbunden.
+
+Durch diese Rückkopplung erzeugt das Transistorpaar einen negativen differentiellen Widerstand. Dieser wirkt den realen Verlusten des LC-Schwingkreises entgegen und ermöglicht eine dauerhafte Schwingung.
+
+Die beiden Schwingkreisknoten schwingen näherungsweise gegenphasig. Steigt die Spannung an einem Knoten an, fällt sie am anderen Knoten ab. Das vollständige differentielle Ausgangssignal ergibt sich aus der Spannungsdifferenz zwischen beiden Knoten:
+
+$$
+u_\text{diff}(t)=u_1(t)-u_2(t)
+$$
+
+In der aktuellen Schaltung wird das Ausgangssignal nur an einem der beiden Schwingkreisknoten gegen Masse abgegriffen. Der herausgeführte Ausgang ist damit Single-Ended, obwohl der Oszillator intern differentiell arbeitet.
+
+Die Resonanzfrequenz des Schwingkreises kann näherungsweise mit folgender Gleichung beschrieben werden:
+
+$$
+f_0 \approx \frac{1}{2\pi\sqrt{L_\text{eff}C_\text{eff}}}
+$$
+
+Dabei sind:
+
+- $L_\text{eff}$ die wirksame Induktivität
+- $C_\text{eff}$ die wirksame Kapazität einschließlich parasitärer Kapazitäten
+
+Die Kapazität der Varaktordioden `D1` und `D2` wird über die Abstimmspannung `Vtune` verändert. Dadurch verändert sich die Resonanzfrequenz und somit die Ausgangsfrequenz des Oszillators.
+
+Für die Stromversorgung des Cross-Coupled-Paares wird ein einfacher NMOS-Stromspiegel eingesetzt. Dieser besteht aus den Transistoren `Q3` und `Q4` sowie dem Widerstand `R4`.
+
+### Cross-Coupled-Transistorpaar
+
+Die MOSFETs `Q1` und `Q2` sind über Kreuz miteinander gekoppelt. Das Gate eines Transistors ist jeweils mit dem Drain des anderen Transistors verbunden.
+
+Die beiden Schwingkreisknoten schwingen dadurch näherungsweise gegenphasig. Steigt die Spannung an einem Knoten an, fällt sie am anderen Knoten ab.
+
+Das Transistorpaar erzeugt im Schwingkreis einen negativen differentiellen Widerstand. Dieser wirkt den realen Verlustwiderständen des Schwingkreises entgegen. Sind die Verluste ausreichend kompensiert, kann die Schwingung dauerhaft bestehen bleiben.
+
+Die Schaltung arbeitet intern differenziell. Das bedeutet, dass das vollständige Signal als Spannungsdifferenz zwischen den beiden Schwingkreisknoten betrachtet werden kann:
+
+$$
+u_\text{diff}(t)=u_1(t)-u_2(t)
+$$
+
+Wird nur einer der beiden Knoten gegen Masse gemessen, handelt es sich dagegen um einen unsymmetrischen beziehungsweise Single-Ended-Ausgang.
+
+### Spannungsabhängige Frequenzabstimmung
+
+Damit aus dem LC-Oszillator ein spannungsgesteuerter Oszillator wird, werden die festen Kapazitäten teilweise durch Varaktordioden ersetzt.
+
+Eine Varaktordiode wird in Sperrrichtung betrieben und verhält sich dabei näherungsweise wie ein spannungsabhängiger Kondensator. Die Abstimmspannung `Vtune` verändert die Sperrspannung und damit die Kapazität der Dioden.
+
+Dadurch verändert sich die wirksame Kapazität des Schwingkreises:
+
+$$
+V_\text{tune}
+\longrightarrow
+C_\text{Varaktor}
+\longrightarrow
+f_\text{out}
+$$
+
+In der aktuellen Schaltung nimmt die gemessene Ausgangsfrequenz mit zunehmender Spannung `Vtune` ab. Die genaue Richtung der Frequenzänderung hängt von der Verschaltung der Varaktordioden und den Spannungsverhältnissen innerhalb des Schwingkreises ab.
+
+Für einen möglichst verzerrungsarmen Frequenzmodulator sollte der Zusammenhang zwischen Abstimmspannung und Ausgangsfrequenz im verwendeten Arbeitsbereich möglichst linear sein:
+
+$$
+f_\text{out}
+\approx
+f_\text{Mitte}
++
+K_\text{VCO}\cdot\left(V_\text{tune}-V_\text{Mitte}\right)
+$$
+
+Dabei beschreibt $K_\text{VCO}$ die Empfindlichkeit des VCOs und wird beispielsweise in `MHz/V` angegeben.
+
+### NMOS-Stromspiegel
+
+Die Stromquelle des VCOs wird als einfacher NMOS-Stromspiegel ausgeführt.
+
+<p align="center">
+  <img
+    src="images/nmos-stromspiegel.png"
+    alt="Einfacher NMOS-Stromspiegel mit Referenzwiderstand"
+    width="550">
+</p>
+
+<p align="center">
+  <em>
+    Prinzip eines einfachen NMOS-Stromspiegels.
+    Quelle:
+    <a href="https://www.allaboutcircuits.com/technical-articles/the-basic-mosfet-constant-current-source/">
+      All About Circuits
+    </a>
+  </em>
+</p>
+
+Der Stromspiegel besteht in der aktuellen Schaltung aus den MOSFETs `Q3` und `Q4` sowie dem Widerstand `R4`.
+
+Bei `Q4` sind Gate und Drain miteinander verbunden. Der Transistor ist damit als Referenztransistor beschaltet. Über den Widerstand `R4` stellt sich ein Referenzstrom ein.
+
+Da die Gates von `Q3` und `Q4` miteinander verbunden sind, liegt an beiden MOSFETs näherungsweise dieselbe Gate-Source-Spannung an. Dadurch übernimmt `Q3` näherungsweise den Strom des Referenzzweigs und stellt den Arbeitspunktstrom für das Cross-Coupled-Transistorpaar bereit.
+
+Die Bauteile der Prinzipschaltung entsprechen in der aktuellen VCO-Schaltung folgenden Bauteilen:
+
+| Prinzipschaltung | Aktuelle Schaltung |
+|---|---|
+| Referenztransistor `Q1` | `Q4` |
+| Ausgangstransistor `Q2` | `Q3` |
+| Einstellwiderstand `RSET` | `R4` |
+| Referenzstrom `IREF` | Strom durch `R4` und `Q4` |
+| Ausgangsstrom `IBIAS` | Arbeitspunktstrom für `Q1` und `Q2` |
+
+Der Stromspiegel übernimmt unter anderem folgende Aufgaben:
+
+- Einstellung des Arbeitspunktstroms
 - Begrenzung des Stroms durch den Oszillator
-- Reduzierung großer Amplitudenschwankungen
-- Verringerung der Abhängigkeit von der Versorgungsspannung
-- Schutz der Transistoren vor zu hohen Strömen
+- Unterstützung eines zuverlässigen Anschwingens
+- Verringerung großer Stromschwankungen
+- Beeinflussung der Ausgangsamplitude
+- Schutz der MOSFETs vor zu hohen Strömen
 
-Der Stromspiegel stellt jedoch keine vollständige automatische Amplitudenregelung dar. Die Ausgangsamplitude kann sich weiterhin mit der Frequenz, der Abstimmspannung und der Belastung verändern.
-
-## Abstimmspannung
-
-Die Ausgangsfrequenz wird über die Gleichspannung `Vtune` eingestellt.
-
-Für den späteren Einsatz als Frequenzmodulator soll die Abstimmspannung aus zwei Anteilen bestehen:
+Der Referenzstrom kann vereinfacht mit folgender Gleichung abgeschätzt werden:
 
 $$
-V_\text{tune}(t) = V_\text{DC} + v_\text{in}(t)
+I_\text{REF}
+\approx
+\frac{V_\text{DD}-V_\text{GS}}{R_4}
 $$
 
-Dabei ist:
+Diese Gleichung ist nur eine Näherung, da die Gate-Source-Spannung `VGS` vom verwendeten MOSFET, vom Strom und von der Temperatur abhängt.
 
-- `VDC` eine einstellbare Gleichspannung zur Festlegung der Mittenfrequenz
-- `vin(t)` das zu modulierende Eingangssignal
+Im realen Aufbau wird für `R4` ein Widerstand von **51 kΩ** verwendet. Bei einem deutlich größeren Widerstand ist der Strom zu klein, sodass der Oszillator nicht zuverlässig zu schwingen beginnt.
 
-Die Gleichspannung ermöglicht außerdem eine Korrektur von Frequenzabweichungen und Frequenzdrift.
+In der SPICE-Simulation wird dagegen ein deutlich größerer Widerstand verwendet. Bei einem Widerstand von **51 kΩ** treten in der Simulation stärkere Verzerrungen des Ausgangssignals auf.
 
-## Frequenzkennlinie
+Dieser Unterschied zeigt, dass das verwendete MOSFET-Modell das reale Verhalten des Stromspiegels nur näherungsweise abbildet.
 
-Zur Untersuchung des VCOs soll die Ausgangsfrequenz in Abhängigkeit von der Abstimmspannung aufgenommen werden.
+Der einfache NMOS-Stromspiegel ist keine ideale Stromquelle. Der erzeugte Strom wird unter anderem durch folgende Eigenschaften beeinflusst:
 
-Dazu wird `Vtune` schrittweise verändert und für jeden Spannungswert die Ausgangsfrequenz gemessen.
+- Bauteiltoleranzen der MOSFETs
+- unterschiedliche Gate-Source-Schwellspannungen
+- Drain-Source-Spannung von `Q3`
+- Temperatur
+- Versorgungsspannung
+- Ausgangswiderstand der MOSFETs
 
-Die Kennlinie wird anschließend als
+Der Stromspiegel stabilisiert damit den Arbeitspunkt der Schaltung, stellt jedoch keine vollständige automatische Regelung der Ausgangsamplitude dar.
 
-$$
-f_\text{out} = f(V_\text{tune})
-$$
+### Einsatz als Frequenzmodulator
 
-dargestellt.
-
-Aus der Kennlinie können unter anderem folgende Eigenschaften bestimmt werden:
-
-- erreichbarer Frequenzbereich
-- Mittenfrequenz
-- VCO-Empfindlichkeit
-- Linearität
-- nichtlineare Abweichung
-- geeigneter Arbeitspunkt
-
-Die VCO-Empfindlichkeit ergibt sich näherungsweise aus:
+Für die Frequenzmodulation wird der Abstimmspannung eine Gleichspannung und ein zeitlich veränderliches Modulationssignal überlagert:
 
 $$
-K_\text{VCO} = \frac{\Delta f}{\Delta V}
+V_\text{tune}(t)
+=
+V_\text{DC}
++
+v_\text{mod}(t)
 $$
 
-und wird beispielsweise in `MHz/V` angegeben.
+Die Gleichspannung $V_\text{DC}$ legt die Mittenfrequenz fest. Das Modulationssignal $v_\text{mod}(t)$ verändert die Momentanfrequenz um diese Mittenfrequenz.
 
-## Ein- und Ausgang
+Bei einer annähernd linearen VCO-Kennlinie gilt näherungsweise:
 
-Der spätere Platinenaufbau soll jeweils eine BNC-Buchse für den Eingang und den Ausgang besitzen.
+$$
+f_\text{out}(t)
+=
+f_\text{Mitte}
++
+K_\text{VCO}\cdot v_\text{mod}(t)
+$$
 
-### Eingang
+Die Amplitude des Modulationssignals bestimmt damit den Frequenzhub. Die Frequenz des Modulationssignals bestimmt, wie schnell die Ausgangsfrequenz zwischen ihren Grenzwerten verändert wird.
 
-Über den Eingang werden die Gleichspannung zur Frequenzeinstellung und das Modulationssignal eingespeist.
-
-Der Eingang soll:
-
-- für ein Signal von ungefähr ±0,5 V geeignet sein
-- eine Gleichspannung zur Einstellung der Mittenfrequenz ermöglichen
-- möglichst gering auf die Signalquelle zurückwirken
-- auf 50 Ω angepasst werden
-
-### Ausgang
-
-Am Ausgang soll das erzeugte hochfrequente Signal messbar sein.
-
-Der Ausgang soll:
-
-- auf 50 Ω angepasst werden
-- mit einem Oszilloskop oder Spektrumanalysator messbar sein
-- den Schwingkreis möglichst wenig belasten
-- möglichst kurzschlusssicher ausgeführt werden
-
-Im aktuellen Schaltplan ist noch keine vollständige 50-Ω-Ausgangsanpassung beziehungsweise Ausgangspufferung dargestellt. Diese muss für den endgültigen Aufbau noch ergänzt und untersucht werden.
+Damit die Frequenzmodulation möglichst unverzerrt erfolgt, muss das Modulationssignal innerhalb des annähernd linearen Bereichs der aufgenommenen VCO-Kennlinie bleiben.
 
 ## Verwendete Bauteile
 
@@ -313,5 +391,29 @@ Vor der Simulation sollte überprüft werden, ob:
 
 ## Mitwirkende
 
-- Maurice Draeger
-- Ethaniel König
+<p>
+  <a href="https://github.com/madraeger">
+    <img src="https://img.shields.io/badge/GitHub-Maurice%20Draeger-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub-Profil von Maurice Draeger">
+  </a>
+  <a href="https://github.com/ethaniellingkoenig">
+    <img src="https://img.shields.io/badge/GitHub-Ethaniel%20Ingkoenig-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub-Profil von Ethaniel Ingkoenig">
+  </a>
+</p>
+
+## Literaturverzeichnis
+
+Die folgenden Quellen wurden für die Grundlagen und die Entwicklung der Schaltung verwendet:
+
+1. [Analog Circuit Design: Voltage Controlled Oscillator – VCO Basics, Operation, Tuning and Use in Communication Circuits](https://analogcircuitdesign.com/voltage-controlled-oscillator/)  
+   Grundlagen zu spannungsgesteuerten Oszillatoren, LC-VCOs, Varaktordioden und VCO-Kennlinien.
+
+2. [Electronics Tutorials: LC Oscillator Tutorial and Tuned LC Oscillator Basics](https://www.electronics-tutorials.ws/oscillator/oscillators.html)  
+   Grundlagen zu LC-Schwingkreisen, Rückkopplung und den Bedingungen für eine dauerhafte Schwingung.
+
+3. [ElektronikTutor: Frequenzmodulation](https://www.elektroniktutor.de/signalkunde/fm.html)  
+   Grundlagen zur Frequenzmodulation, zum Frequenzhub, zum Modulationsindex und zur Bandbreite eines FM-Signals.
+
+4. [All About Circuits: The Basic MOSFET Constant-Current Source](https://www.allaboutcircuits.com/technical-articles/the-basic-mosfet-constant-current-source/)  
+   Grundlagen zur MOSFET-Stromquelle und zum Stromspiegel.
+
+Alle Internetquellen wurden zuletzt am **18. Juli 2026** abgerufen.
