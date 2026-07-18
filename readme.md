@@ -43,9 +43,9 @@ Die Schaltung besteht im Wesentlichen aus:
 
 Die Transistoren `Q1` und `Q2` sind über Kreuz gekoppelt. Das Gate jedes Transistors ist mit dem Drain des jeweils anderen Transistors verbunden.
 
-Durch diese Rückkopplung entsteht ein negativer differentieller Widerstand. Dieser gleicht die Verluste des LC-Schwingkreises aus und ermöglicht das dauerhafte Schwingen der Schaltung.
+Durch diese Rückkopplung entsteht ein negativer Widerstand. Dieser gleicht die Verluste des LC-Schwingkreises aus und ermöglicht das dauerhafte Schwingen der Schaltung.
 
-Die Ausgangsspannung kann an einem der beiden differentiellen Schwingkreisknoten abgegriffen werden. Im aktuellen Schaltplan wird das Ausgangssignal am rechten Schwingkreisknoten ausgegeben.
+Die Ausgangsspannung kann an einem der beiden Schwingkreisknoten abgegriffen werden. Im aktuellen Schaltplan wird das Ausgangssignal am rechten Schwingkreisknoten ausgegeben.
 
 ## Schwingkreis
 
@@ -56,7 +56,7 @@ Der frequenzbestimmende Schwingkreis besteht aus:
 - `D1 = 1SV149`
 - `D2 = 1SV149`
 
-Die beiden Induktivitäten sind mit der Versorgungsspannung verbunden. Die Varaktordioden befinden sich zwischen den beiden differentiellen Ausgangsknoten.
+Die beiden Induktivitäten sind mit der Versorgungsspannung verbunden. Die Varaktordioden befinden sich zwischen den beiden Ausgangsknoten.
 
 Der gemeinsame Anschluss der Varaktordioden wird über die Spannung `Vtune` angesteuert.
 
@@ -179,15 +179,15 @@ Im aktuellen Schaltplan ist noch keine vollständige 50-Ω-Ausgangsanpassung bez
 
 Für den aktuellen Aufbau werden unter anderem folgende Bauteile verwendet:
 
-| Bezeichnung | Bauteil | Funktion |
-|---|---|---|
-| Q1, Q2 | BS170 | Cross-Coupled-Transistorpaar |
-| Q3, Q4 | BS170 | Stromspiegel beziehungsweise Stromquelle |
-| D1, D2 | 1SV149 | Frequenzabstimmung |
-| L1, L2 | 3,3 µH | Induktiver Teil des Schwingkreises |
-| R4 | 51 kΩ | Einstellung des Referenzstroms |
+| Bezeichnung | Bauteil | Funktion | Datenblatt |
+|---|---|---|---|
+| Q1, Q2 | [`BS170`](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) | Cross-Coupled-Transistorpaar | [![BS170-Datenblatt](https://img.shields.io/badge/BS170-Datenblatt%20öffnen-blue?style=for-the-badge)](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) |
+| Q3, Q4 | [`BS170`](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) | NMOS-Stromspiegel | [![BS170-Datenblatt](https://img.shields.io/badge/BS170-Datenblatt%20öffnen-blue?style=for-the-badge)](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) |
+| D1, D2 | [`1SV149`](https://www.radiomuseum.co.uk/filter/1SV149.pdf) | Varaktordioden zur Frequenzabstimmung | [![1SV149-Datenblatt](https://img.shields.io/badge/1SV149-Datenblatt%20öffnen-green?style=for-the-badge)](https://www.radiomuseum.co.uk/filter/1SV149.pdf) |
+| L1, L2 | 3,3 µH | Induktiver Teil des Schwingkreises | – |
+| R4 | 51 kΩ | Einstellung des Referenzstroms im realen Aufbau | – |
 
-Die Bauteilwerte können sich während der weiteren Entwicklung noch ändern.
+Die Bauteilwerte können sich während der weiteren Entwicklung und Optimierung noch ändern.
 
 ## Simulation
 
@@ -210,58 +210,83 @@ Für die Bestimmung der Ausgangsfrequenz wird eine Transientenanalyse durchgefü
 
 ## Abweichungen zwischen Simulation und realem Aufbau
 
-Die SPICE-Simulation bildet die reale Schaltung nur näherungsweise ab.
+Die SPICE-Simulation bildet das Verhalten der realen Schaltung nur näherungsweise ab.
 
 Mögliche Ursachen für Abweichungen sind:
 
 - vereinfachtes SPICE-Modell der Varaktordioden
-- Abweichungen der MOSFET-Modelle
+- Abweichungen der MOSFET-Modelle vom realen Verhalten
 - Bauteiltoleranzen
-- parasitäre Kapazitäten
-- parasitäre Induktivitäten
-- Widerstände der Induktivitäten
-- Leiterbahnlängen
-- Steckverbindungen
-- Eigenschaften der Spannungsversorgung
+- parasitäre Kapazitäten und Induktivitäten
+- Innenwiderstände der Induktivitäten
+- Leiterbahnen und Steckverbindungen
 - Belastung durch Tastköpfe und Messgeräte
 - Temperaturabhängigkeit der Bauteile
+- Störungen und Schwankungen der Versorgungsspannung
 
-Besonders das Kapazitäts-Spannungs-Verhalten der Varaktordioden hat einen großen Einfluss auf den erreichbaren Frequenzbereich.
+Für den NMOS-Stromspiegel werden in der Simulation und im realen Aufbau unterschiedliche Widerstandswerte verwendet. Im realen Aufbau wird ein Widerstand von **51 kΩ** eingesetzt. Bei einem größeren Widerstand ist der Strom zu gering, sodass der Oszillator nicht zuverlässig zu schwingen beginnt. In der SPICE-Simulation wird dagegen ein größerer Widerstand benötigt, da kleinere Widerstandswerte zu Verzerrungen des Ausgangssignals führen.
+
+Im realen Aufbau wurden außerdem Kondensatoren parallel zur Spannungsversorgung geschaltet. Diese dienen als Abblock- beziehungsweise Stützkondensatoren und reduzieren hochfrequente Störungen sowie kurzzeitige Spannungsschwankungen. Dadurch wird die Versorgungsspannung direkt an der Schaltung stabilisiert und das Schwingverhalten des VCOs verbessert.
+
+Die Kondensatoren sollten auf der späteren Platine möglichst nah an den Versorgungspins der MOSFETs angeordnet werden.
 
 ## Aktueller Stand
 
-Der aktuelle Entwicklungsstand umfasst:
+Der VCO wurde sowohl in SPICE simuliert als auch praktisch aufgebaut. Über die Abstimmspannung `Vtune` lässt sich die Ausgangsfrequenz nahezu linear einstellen.
 
-- Aufbau eines differentiellen Cross-Coupled-VCOs
-- Verwendung von zwei BS170 als Oszillatortransistoren
-- Stromquelle mit NMOS-Stromspiegel
-- zwei Induktivitäten mit jeweils 3,3 µH
-- Frequenzabstimmung mit zwei 1SV149-Varaktordioden
-- Einbindung eines eigenen SPICE-Modells
-- Simulation der Schaltung in KiCad mit ngspice
-- Untersuchung des Frequenzbereichs von ungefähr 5 MHz bis 6 MHz
+Der bisher erreichte Frequenzbereich liegt zwischen ungefähr **5,01 MHz und 6,00 MHz**. Dafür wird `Vtune` zwischen ungefähr **5,33 V und 6,89 V** verändert. Die Mittenfrequenz von etwa **5,5 MHz** wird ebenfalls erreicht.
+
+Die Ausgangsamplitude bleibt über einen großen Teil des Frequenzbereichs relativ stabil, nimmt jedoch in Richtung **6 MHz** ab.
+
+Für den NMOS-Stromspiegel wird im realen Aufbau ein Widerstand von **51 kΩ** verwendet. In der SPICE-Simulation ist ein deutlich größerer Widerstand notwendig, da es bei kleineren Widerstandswerten zu Verzerrungen des simulierten Ausgangssignals kommt.
+
+Eine erste Platine wurde bereits in KiCad erstellt. Das Layout muss jedoch noch an den aktuellen Schaltungsstand angepasst und weiter optimiert werden.
+
+## Noch nicht vollständig erfüllte Anforderungen
+
+Folgende Anforderungen müssen noch untersucht beziehungsweise umgesetzt werden:
+
+- Anpassung des Abstimmeingangs an das vorgegebene Eingangssignal von ungefähr **±0,5 V**
+- genauere Bestimmung der nichtlinearen Abweichungen der Frequenzkennlinie
+- Untersuchung der Bandbreite des Modulationseingangs
+- Stabilisierung der Ausgangsamplitude in Richtung **6 MHz**
+- Einkopplung des Modulationssignals zusammen mit einer einstellbaren Gleichspannung
+- Anpassung des Eingangs auf **50 Ω**
+- Anpassung des Ausgangs auf **50 Ω**
+- Ergänzung einer Ausgangspufferung zur Entkopplung des Schwingkreises
+- kurzschlusssichere Auslegung des Ausgangs
+- Untersuchung der Frequenzdrift und der Temperaturabhängigkeit
+- Anpassung und Optimierung des bereits erstellten Platinenlayouts
+- Aufbau und Prüfung der endgültigen Platine
+- Umsetzung von jeweils einem Ein- und Ausgang über BNC-Buchsen
+- Prüfung der Schaltung unter realer 50-Ω-Belastung
+
+## Ausführliche Dokumentation
+
+Eine ausführliche Darstellung des Entwicklungsstands befindet sich in einem separaten Quarto-Bericht innerhalb dieses Repositorys.
+
+Der Bericht enthält unter anderem:
+
+- die vollständige Kennlinie zwischen `Vtune` und Ausgangsfrequenz
+- grafische Auswertung der Messwerte
+- simulierte Ausgangssignale
+- am Oszilloskop aufgenommene Ausgangssignale
 - Vergleich zwischen Simulation und realem Aufbau
+- Untersuchung der Ausgangsamplitude
+- Beschreibung der Unterschiede zwischen den Bauteilwerten in der Simulation und im realen Aufbau
 
-Noch zu untersuchen beziehungsweise umzusetzen sind:
+## Verwendete Software
 
-- genaue Aufnahme der Frequenzkennlinie
-- Bestimmung der Nichtlinearität
-- endgültige Dimensionierung der Stromquelle
-- Stabilisierung der Ausgangsamplitude
-- 50-Ω-Anpassung des Eingangs
-- 50-Ω-Anpassung des Ausgangs
-- Ausgangspufferung
-- Kurzschlussschutz
-- Aufbau und Messung der endgültigen Platine
+Für die Entwicklung, Simulation und Versionsverwaltung werden folgende Programme verwendet:
 
-## Software
+| Software | Verwendung | Download |
+|---|---|---|
+| KiCad | Erstellung des Schaltplans und des Platinenlayouts | [![KiCad herunterladen](https://img.shields.io/badge/KiCad-herunterladen-blue?style=for-the-badge&logo=kicad)](https://www.kicad.org/download/) |
+| ngspice | Simulation der Schaltung und Untersuchung des VCO-Verhaltens | [![ngspice herunterladen](https://img.shields.io/badge/ngspice-herunterladen-green?style=for-the-badge)](https://ngspice.sourceforge.io/download.html) |
+| Git | Lokale Versionsverwaltung des Projekts | [![Git herunterladen](https://img.shields.io/badge/Git-herunterladen-orange?style=for-the-badge&logo=git&logoColor=white)](https://git-scm.com/install/) |
+| GitHub | Speicherung und gemeinsame Bearbeitung des Repositorys | [![GitHub öffnen](https://img.shields.io/badge/GitHub-öffnen-black?style=for-the-badge&logo=github)](https://github.com/) |
 
-Für das Projekt werden folgende Programme verwendet:
-
-- KiCad
-- ngspice
-- Git
-- GitHub
+KiCad verwendet für die integrierte SPICE-Simulation ngspice. Abhängig von der KiCad-Installation kann ngspice daher bereits enthalten sein.
 
 ## Projekt öffnen
 
@@ -271,13 +296,19 @@ Das Repository kann mit folgendem Befehl geklont werden:
 git clone <URL-DES-REPOSITORY>
 ```
 
-Anschließend kann das KiCad-Projekt über die entsprechende `.kicad_pro`-Datei geöffnet werden.
+Der aktuelle Stand des KiCad-Projekts befindet sich im folgenden Unterordner:
+
+```text
+kicad/FM-ELK_LC-VCO-FINAL
+```
+
+Anschließend kann die darin enthaltene `.kicad_pro`-Datei mit KiCad geöffnet werden.
 
 Vor der Simulation sollte überprüft werden, ob:
 
 - alle Symbolbibliotheken vorhanden sind
 - alle Footprints korrekt zugeordnet sind
-- das SPICE-Modell der 1SV149 eingebunden ist
+- das SPICE-Modell der `1SV149` eingebunden ist
 - die Modellpfade in KiCad korrekt eingestellt sind
 
 ## Mitwirkende
