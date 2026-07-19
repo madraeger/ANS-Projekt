@@ -92,14 +92,6 @@ Die beiden Schwingkreisknoten schwingen dadurch näherungsweise gegenphasig. Ste
 
 Das Transistorpaar erzeugt im Schwingkreis einen negativen differentiellen Widerstand. Dieser wirkt den realen Verlustwiderständen des Schwingkreises entgegen. Sind die Verluste ausreichend kompensiert, kann die Schwingung dauerhaft bestehen bleiben.
 
-Die Schaltung arbeitet intern differenziell. Das bedeutet, dass das vollständige Signal als Spannungsdifferenz zwischen den beiden Schwingkreisknoten betrachtet werden kann:
-
-$$
-u_\text{diff}(t)=u_1(t)-u_2(t)
-$$
-
-Wird nur einer der beiden Knoten gegen Masse gemessen, handelt es sich dagegen um einen unsymmetrischen beziehungsweise Single-Ended-Ausgang.
-
 ### Spannungsabhängige Frequenzabstimmung
 
 Damit aus dem LC-Oszillator ein spannungsgesteuerter Oszillator wird, werden die festen Kapazitäten teilweise durch Varaktordioden ersetzt.
@@ -237,25 +229,6 @@ Für den aktuellen Aufbau werden unter anderem folgende Bauteile verwendet:
 
 Die Bauteilwerte können sich während der weiteren Entwicklung und Optimierung noch ändern.
 
-## Simulation
-
-Die Simulation der Schaltung wird in KiCad mit ngspice durchgeführt.
-
-Untersucht werden unter anderem:
-
-- Startverhalten des Oszillators
-- Ausgangsfrequenz
-- Ausgangsamplitude
-- Frequenzänderung in Abhängigkeit von `Vtune`
-- Stromaufnahme
-- Arbeitspunkt der MOSFETs
-- Verhalten der Stromquelle
-- Linearität der Frequenzkennlinie
-- Einfluss der Bauteilwerte
-- Einfluss der Belastung am Ausgang
-
-Für die Bestimmung der Ausgangsfrequenz wird eine Transientenanalyse durchgeführt. Aus dem zeitlichen Ausgangssignal kann anschließend die Periodendauer oder das Frequenzspektrum bestimmt werden.
-
 ## Abweichungen zwischen Simulation und realem Aufbau
 
 Die SPICE-Simulation bildet das Verhalten der realen Schaltung nur näherungsweise ab.
@@ -374,39 +347,13 @@ Die folgenden Abbildungen zeigen jeweils die letzten drei Perioden des mit dem O
 
 <p align="center">
   <img
-    src="python/plots/oszilloskop_5_MHz.png"
+    src="python/plots/oszilloskop_alle_frequenzen.png"
     alt="Oszilloskopmessung des Ausgangssignals bei 5 MHz"
     width="850">
 </p>
 
 <p align="center">
-  <em>Gemessenes Ausgangssignal bei ungefähr 5 MHz</em>
-</p>
-
-#### Messung bei 5,5 MHz
-
-<p align="center">
-  <img
-    src="python/plots/oszilloskop_5_5_MHz.png"
-    alt="Oszilloskopmessung des Ausgangssignals bei 5,5 MHz"
-    width="850">
-</p>
-
-<p align="center">
-  <em>Gemessenes Ausgangssignal bei ungefähr 5,5 MHz</em>
-</p>
-
-#### Messung bei 6 MHz
-
-<p align="center">
-  <img
-    src="python/plots/oszilloskop_6_MHz.png"
-    alt="Oszilloskopmessung des Ausgangssignals bei 6 MHz"
-    width="850">
-</p>
-
-<p align="center">
-  <em>Gemessenes Ausgangssignal bei ungefähr 6 MHz</em>
+  <em>Gemessenes Ausgangssignal bei 5 - 6 MHz</em>
 </p>
 
 Die gemessenen Signale besitzen über den untersuchten Frequenzbereich eine weitgehend sinusförmige Signalform.
@@ -419,16 +366,7 @@ Für die Frequenzen **5 MHz**, **5,5 MHz** und **6 MHz** wurden die simulierten 
 
 
 <details>
-  <summary><strong>Simulation und Vergleich bei 5 MHz anzeigen</strong></summary>
-
-  #### Simulation bei 5 MHz
-
-  <p align="center">
-    <img
-      src="python/plots/simulation_5_MHz.png"
-      alt="Simuliertes Ausgangssignal bei 5 MHz"
-      width="850">
-  </p>
+  <summary><strong>Vergleich bei 5 MHz anzeigen</strong></summary>
 
   #### Vergleich bei 5 MHz
 
@@ -441,16 +379,7 @@ Für die Frequenzen **5 MHz**, **5,5 MHz** und **6 MHz** wurden die simulierten 
 </details>
 
 <details>
-  <summary><strong>Simulation und Vergleich bei 5,5 MHz anzeigen</strong></summary>
-
-  #### Simulation bei 5,5 MHz
-
-  <p align="center">
-    <img
-      src="python/plots/simulation_5_5_MHz.png"
-      alt="Simuliertes Ausgangssignal bei 5,5 MHz"
-      width="850">
-  </p>
+  <summary><strong>Vergleich bei 5,5 MHz anzeigen</strong></summary>
 
   #### Vergleich bei 5,5 MHz
 
@@ -463,16 +392,7 @@ Für die Frequenzen **5 MHz**, **5,5 MHz** und **6 MHz** wurden die simulierten 
 </details>
 
 <details>
-  <summary><strong>Simulation und Vergleich bei 6 MHz anzeigen</strong></summary>
-
-  #### Simulation bei 6 MHz
-
-  <p align="center">
-    <img
-      src="python/plots/simulation_6_MHz.png"
-      alt="Simuliertes Ausgangssignal bei 6 MHz"
-      width="850">
-  </p>
+  <summary><strong>Vergleich bei 6 MHz anzeigen</strong></summary>
 
   #### Vergleich bei 6 MHz
 
@@ -583,7 +503,7 @@ Vor der Simulation sollte überprüft werden, ob:
 - das SPICE-Modell der `1SV149` eingebunden ist
 - die Modellpfade in KiCad korrekt eingestellt sind
 
-## Mitwirkende
+## Projektteam
 
 <p>
   <a href="https://github.com/madraeger">

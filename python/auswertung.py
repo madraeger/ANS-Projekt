@@ -15,11 +15,12 @@ DATA_DIR = BASE_DIR / "data"
 PLOT_DIR = BASE_DIR / "plots"
 PLOT_DIR.mkdir(exist_ok=True)
 
-N_PERIODS = 3
+N_PERIODS = 2
 
-# Darstellungsbereich der FFT. Bei einem 5-MHz-Signal reichen
-# 50 MHz aus, um mehrere Harmonische betrachten zu können.
-FFT_WINDOW_HALF_WIDTH_MHZ = 1
+# Sichtbarer Bereich der direkt berechneten FFT.
+# Die FFT selbst wird weiterhin aus der vollständigen CSV berechnet.
+FFT_MIN_MHZ = 0
+FFT_MAX_MHZ = 30
 
 MESSUNGEN = {
     "5 MHz": {
@@ -314,6 +315,75 @@ def letzte_perioden(
     return zeit_ausschnitt, signal_ausschnitt
 
 
+
+def perioden_phasengleich(
+    zeit,
+    signal,
+    frequenz,
+    anzahl_perioden,
+    anzahl_ausgabepunkte=2000
+):
+    """
+    Schneidet einen eingeschwungenen Ausschnitt aus und setzt
+    t = 0 auf einen steigenden Nulldurchgang bezogen auf den
+    Mittelwert des Signals.
+
+    Dadurch starten verschiedene Frequenzen im gemeinsamen Plot
+    mit derselben Phase.
+    """
+    dauer = anzahl_perioden / frequenz
+    signal_zentriert = signal - np.mean(signal)
+
+    # Steigende Durchgänge durch den Mittelwert suchen.
+    kandidaten = np.where(
+        (signal_zentriert[:-1] <= 0)
+        & (signal_zentriert[1:] > 0)
+    )[0]
+
+    startzeiten = []
+
+    for index in kandidaten:
+        y1 = signal_zentriert[index]
+        y2 = signal_zentriert[index + 1]
+        t1 = zeit[index]
+        t2 = zeit[index + 1]
+
+        if y2 == y1:
+            startzeit = t1
+        else:
+            anteil = -y1 / (y2 - y1)
+            startzeit = t1 + anteil * (t2 - t1)
+
+        if startzeit + dauer <= zeit[-1]:
+            startzeiten.append(startzeit)
+
+    if startzeiten:
+        # Letzten möglichen Durchgang verwenden:
+        # Simulation liegt dadurch sicher im eingeschwungenen Zustand.
+        startzeit = startzeiten[-1]
+    else:
+        # Fallback, falls kein vollständiger Durchgang gefunden wird.
+        startzeit = max(
+            zeit[0],
+            zeit[-1] - dauer
+        )
+
+    relative_zeit = np.linspace(
+        0,
+        dauer,
+        anzahl_ausgabepunkte,
+        endpoint=False,
+    )
+
+    signal_ausschnitt = np.interp(
+        startzeit + relative_zeit,
+        zeit,
+        signal,
+    )
+
+    return relative_zeit, signal_ausschnitt
+
+
 def normalisieren(signal):
     signal = signal - np.mean(signal)
     maximum = np.max(np.abs(signal))
@@ -334,6 +404,14 @@ def vergleich_vorbereiten(
     oszi_zeit,
     oszi_signal
 ):
+    """
+    Bereitet Simulation und Messung für den direkten Vergleich vor.
+
+    Beide Ausschnitte beginnen bereits bei einem steigenden
+    Durchgang durch den jeweiligen Mittelwert. Hier werden sie
+    nur noch auf dasselbe Zeitraster gebracht, zentriert und
+    auf dieselbe Amplitude normiert.
+    """
     gemeinsame_dauer = min(
         sim_zeit[-1],
         oszi_zeit[-1]
@@ -346,67 +424,47 @@ def vergleich_vorbereiten(
         endpoint=False,
     )
 
-    sim_roh = np.interp(
+    sim_interp = np.interp(
         gemeinsame_zeit,
         sim_zeit,
         sim_signal,
     )
 
-    oszi_roh = np.interp(
+    oszi_interp = np.interp(
         gemeinsame_zeit,
         oszi_zeit,
         oszi_signal,
     )
 
-    sim_norm = normalisieren(sim_roh)
-    oszi_norm = normalisieren(oszi_roh)
+    sim_norm = normalisieren(sim_interp)
+    oszi_norm = normalisieren(oszi_interp)
 
-    # Simulation und Messung beginnen nicht mit derselben Phase.
-    # Deshalb wird das Oszilloskopsignal automatisch verschoben.
-    korrelation = np.fft.ifft(
-        np.fft.fft(oszi_norm)
-        * np.conj(np.fft.fft(sim_norm))
-    ).real
-
-    verschiebung = int(np.argmax(korrelation))
-
-    oszi_roh = np.roll(
-        oszi_roh,
-        -verschiebung
-    )
-
-    oszi_norm = np.roll(
-        oszi_norm,
-        -verschiebung
-    )
-
-    return (
-        gemeinsame_zeit,
-        sim_roh,
-        oszi_roh,
-        sim_norm,
-        oszi_norm,
-    )
+    return gemeinsame_zeit, sim_norm, oszi_norm
 
 
 # ============================================================
 # Diagramme speichern
 # ============================================================
 
-def einzelplot_speichern(
-    zeit,
-    signal,
+def mehrere_verlaeufe_speichern(
+    signale,
     titel,
-    dateiname,
-    beschriftung
+    dateiname
 ):
-    plt.figure(figsize=(9, 4.5))
+    """
+    Zeichnet mehrere Zeitverläufe gemeinsam in ein Diagramm.
 
-    plt.plot(
-        zeit * 1e6,
-        signal,
-        label=beschriftung
-    )
+    signale ist ein Dictionary mit:
+        Bezeichnung: (Zeitarray, Signalarrray)
+    """
+    plt.figure(figsize=(9, 5))
+
+    for bezeichnung, (zeit, signal) in signale.items():
+        plt.plot(
+            zeit * 1e6,
+            signal,
+            label=bezeichnung,
+        )
 
     plt.xlabel("Zeit in µs")
     plt.ylabel("Spannung in V")
@@ -420,71 +478,38 @@ def einzelplot_speichern(
 
 def vergleich_speichern(
     zeit,
-    sim_roh,
-    oszi_roh,
-    sim_norm,
-    oszi_norm,
+    sim_signal,
+    oszi_signal,
     titel,
     dateiname
 ):
-    zeit_us = zeit * 1e6
+    """
+    Zeichnet nur den normierten, phasengleichen Vergleich.
+    """
+    plt.figure(figsize=(9, 5))
 
-    fig, achsen = plt.subplots(
-        2,
-        1,
-        figsize=(9, 7),
-        sharex=True,
+    plt.plot(
+        zeit * 1e6,
+        sim_signal,
+        label="Simulation",
     )
 
-    achsen[0].plot(
-        zeit_us,
-        sim_roh,
-        label="Simulation"
-    )
-
-    achsen[0].plot(
-        zeit_us,
-        oszi_roh,
+    plt.plot(
+        zeit * 1e6,
+        oszi_signal,
         label="Oszilloskop",
         alpha=0.8,
     )
 
-    achsen[0].set_ylabel("Spannung in V")
-    achsen[0].set_title(
-        f"{titel} – reale Amplituden"
-    )
-    achsen[0].grid(True)
-    achsen[0].legend()
-
-    achsen[1].plot(
-        zeit_us,
-        sim_norm,
-        label="Simulation normiert",
-    )
-
-    achsen[1].plot(
-        zeit_us,
-        oszi_norm,
-        label="Oszilloskop normiert",
-        alpha=0.8,
-    )
-
-    achsen[1].set_xlabel("Zeit in µs")
-    achsen[1].set_ylabel(
-        "Normierte Amplitude"
-    )
-    achsen[1].set_title(
-        "Vergleich der Signalform "
-        "mit Phasenanpassung"
-    )
-    achsen[1].grid(True)
-    achsen[1].legend()
-
-    fig.tight_layout()
-    fig.savefig(dateiname, dpi=200)
-    plt.close(fig)
-
-
+    plt.xlabel("Zeit in µs")
+    plt.ylabel("Normierte Amplitude")
+    plt.title(titel)
+    plt.ylim(-1.1, 1.1)
+    plt.grid(True)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(dateiname, dpi=200)
+    plt.close()
 
 
 # ============================================================
@@ -499,17 +524,18 @@ def fft_oszilloskop_speichern(
     dateiname
 ):
     """
-    Einfache FFT der vollständigen Oszilloskopaufnahme.
-
-    Es werden bewusst keine Fensterfunktion, keine Filterung,
-    keine Normierung und kein Zero-Padding verwendet.
+    Direkte FFT der vollständigen Oszilloskopaufnahme:
+    - kein Fenster
+    - kein Zero-Padding
+    - keine Filterung
+    - keine dB-Normierung
     """
     if len(zeit) < 2:
         raise ValueError(
             "Für die FFT sind zu wenige Messpunkte vorhanden."
         )
 
-    dt = np.median(np.diff(zeit))
+    dt = np.mean(np.diff(zeit))
 
     if dt <= 0:
         raise ValueError(
@@ -517,63 +543,37 @@ def fft_oszilloskop_speichern(
         )
 
     anzahl_punkte = len(signal)
-    messdauer = anzahl_punkte * dt
-    frequenzaufloesung = 1.0 / messdauer
 
-    # Direkte FFT ohne weitere Signalverarbeitung.
-    spektrum = np.fft.rfft(signal)
+    fft_werte = np.fft.rfft(signal)
     frequenzen = np.fft.rfftfreq(
         anzahl_punkte,
-        d=dt
+        d=dt,
     )
 
     # Einseitiges Amplitudenspektrum in Volt.
-    amplitude = np.abs(spektrum) / anzahl_punkte
+    amplituden = np.abs(fft_werte) / anzahl_punkte
 
     if anzahl_punkte > 1:
-        amplitude[1:-1] *= 2.0
-
-    halbbreite_hz = FFT_WINDOW_HALF_WIDTH_MHZ * 1e6
-    untere_grenze_hz = mittenfrequenz_hz - halbbreite_hz
-    obere_grenze_hz = mittenfrequenz_hz + halbbreite_hz
-
-    auswahl = (
-        (frequenzen >= untere_grenze_hz)
-        & (frequenzen <= obere_grenze_hz)
-    )
-
-    if not np.any(auswahl):
-        raise ValueError(
-            "Im gewünschten Frequenzbereich liegt kein FFT-Stützpunkt."
-        )
-
-    frequenzen_bereich = frequenzen[auswahl]
-    amplitude_bereich = amplitude[auswahl]
-
-    peak_index = np.argmax(amplitude_bereich)
-    peak_frequenz = frequenzen_bereich[peak_index]
-    peak_amplitude = amplitude_bereich[peak_index]
+        amplituden[1:-1] *= 2.0
 
     plt.figure(figsize=(9, 5))
-
-    # Marker sind sinnvoll, weil die FFT nur diskrete Frequenzpunkte liefert.
-    plt.plot(
-        frequenzen_bereich / 1e6,
-        amplitude_bereich,
-        marker="o",
-        linestyle="-",
+    plt.stem(
+        frequenzen / 1e6,
+        amplituden,
+        linefmt="C0-",
+        markerfmt="C0o",
+        basefmt=" ",
         label="FFT",
     )
 
     plt.xlabel("Frequenz in MHz")
     plt.ylabel("Amplitude in V")
     plt.title(
-        f"FFT der Oszilloskopaufnahme bei {titel}\n"
-        f"ohne Fenster und Zero-Padding"
+        f"FFT der Oszilloskopaufnahme bei {titel}"
     )
     plt.xlim(
-        untere_grenze_hz / 1e6,
-        obere_grenze_hz / 1e6
+        FFT_MIN_MHZ,
+        FFT_MAX_MHZ,
     )
     plt.grid(True)
     plt.legend()
@@ -581,15 +581,11 @@ def fft_oszilloskop_speichern(
     plt.savefig(dateiname, dpi=200)
     plt.close()
 
+    frequenzabstand = frequenzen[1] - frequenzen[0]
+
     print(
-        f"FFT {titel}: stärkster dargestellter Punkt bei "
-        f"{peak_frequenz / 1e6:.3f} MHz mit "
-        f"{peak_amplitude:.4f} V"
-    )
-    print(
-        f"Messdauer: {messdauer * 1e6:.3f} µs, "
-        f"FFT-Frequenzabstand: "
-        f"{frequenzaufloesung / 1e6:.3f} MHz"
+        f"FFT {titel}: Frequenzabstand "
+        f"{frequenzabstand / 1e6:.3f} MHz"
     )
 
 
@@ -662,12 +658,19 @@ def kennlinie_speichern():
 # ============================================================
 
 def main():
+    simulationsverlaeufe = {}
+    oszilloskopverlaeufe = {}
+
+    # Veraltete Vergleichsplots entfernen.
+    for alter_plot in PLOT_DIR.glob("vergleich_*.png"):
+        alter_plot.unlink()
+
     for name, messung in MESSUNGEN.items():
         print(f"\n--- {name} ---")
 
         frequenz = messung["frequenz"]
 
-        sim_zeit, sim_signal = csv_signal_laden(
+        sim_zeit_gesamt, sim_signal_gesamt = csv_signal_laden(
             messung["simulation"],
             signal_suchbegriffe=(
                 "v(out)",
@@ -689,8 +692,7 @@ def main():
             .replace(",", "_")
         )
 
-        # Für die FFT wird ausdrücklich die vollständige
-        # Oszilloskopaufnahme verwendet.
+        # FFT weiterhin aus der vollständigen Oszilloskopaufnahme.
         fft_oszilloskop_speichern(
             oszi_zeit_gesamt,
             oszi_signal_gesamt,
@@ -699,50 +701,34 @@ def main():
             PLOT_DIR / f"fft_{dateiname}.png",
         )
 
-        # Für die Zeitdiagramme werden weiterhin nur die letzten
-        # zwei bis drei Perioden betrachtet.
-        sim_zeit, sim_signal = letzte_perioden(
-            sim_zeit,
-            sim_signal,
+        # Für die gemeinsamen Zeitplots beginnen alle Signale
+        # bei einem steigenden Durchgang durch ihren Mittelwert.
+        sim_zeit, sim_signal = perioden_phasengleich(
+            sim_zeit_gesamt,
+            sim_signal_gesamt,
             frequenz,
             N_PERIODS,
         )
 
-        oszi_zeit, oszi_signal = letzte_perioden(
+        oszi_zeit, oszi_signal = perioden_phasengleich(
             oszi_zeit_gesamt,
             oszi_signal_gesamt,
             frequenz,
             N_PERIODS,
         )
 
-        einzelplot_speichern(
+        simulationsverlaeufe[name] = (
             sim_zeit,
             sim_signal,
-            (
-                f"Simulation bei {name} – "
-                f"letzte {N_PERIODS} Perioden"
-            ),
-            PLOT_DIR
-            / f"simulation_{dateiname}.png",
-            "Simulation",
         )
 
-        einzelplot_speichern(
+        oszilloskopverlaeufe[name] = (
             oszi_zeit,
             oszi_signal,
-            (
-                f"Oszilloskop bei {name} – "
-                f"letzte {N_PERIODS} Perioden"
-            ),
-            PLOT_DIR
-            / f"oszilloskop_{dateiname}.png",
-            "Oszilloskop",
         )
 
         (
             gemeinsame_zeit,
-            sim_roh,
-            oszi_roh,
             sim_norm,
             oszi_norm,
         ) = vergleich_vorbereiten(
@@ -752,16 +738,38 @@ def main():
             oszi_signal,
         )
 
+        # Vergleich nur mit zentrierten und normierten Signalen,
+        # damit beide Schwingungen wirklich übereinander liegen.
         vergleich_speichern(
             gemeinsame_zeit,
-            sim_roh,
-            oszi_roh,
             sim_norm,
             oszi_norm,
-            f"Simulation und Messung bei {name}",
-            PLOT_DIR
-            / f"vergleich_{dateiname}.png",
+            (
+                f"Simulation und Oszilloskop bei {name} "
+                f"– normiert und phasengleich, {N_PERIODS} Perioden"
+            ),
+            PLOT_DIR / f"vergleich_{dateiname}.png",
         )
+
+    # Alle drei Simulationsverläufe gemeinsam.
+    mehrere_verlaeufe_speichern(
+        simulationsverlaeufe,
+        (
+            "Simulierte VCO-Signale "
+            f"– phasengleich, {N_PERIODS} Perioden"
+        ),
+        PLOT_DIR / "simulation_alle_frequenzen.png",
+    )
+
+    # Alle drei Oszilloskopverläufe gemeinsam.
+    mehrere_verlaeufe_speichern(
+        oszilloskopverlaeufe,
+        (
+            "Gemessene VCO-Signale "
+            f"– phasengleich, {N_PERIODS} Perioden"
+        ),
+        PLOT_DIR / "oszilloskop_alle_frequenzen.png",
+    )
 
     kennlinie_speichern()
 
