@@ -178,15 +178,17 @@ Der Stromspiegel stabilisiert damit den Arbeitspunkt der Schaltung, stellt jedoc
 
 Für den aktuellen Aufbau werden unter anderem folgende Bauteile verwendet:
 
-| Bezeichnung | Bauteil | Funktion | Datenblatt |
-|---|---|---|---|
-| Q1, Q2 | [`BS170`](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) | Cross-Coupled-Transistorpaar | [![BS170-Datenblatt](https://img.shields.io/badge/BS170-Datenblatt%20öffnen-blue?style=for-the-badge)](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) |
-| Q3, Q4 | [`BS170`](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) | NMOS-Stromspiegel | [![BS170-Datenblatt](https://img.shields.io/badge/BS170-Datenblatt%20öffnen-blue?style=for-the-badge)](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) |
-| D1, D2 | [`1SV149`](https://www.radiomuseum.co.uk/filter/1SV149.pdf) | Varaktordioden zur Frequenzabstimmung | [![1SV149-Datenblatt](https://img.shields.io/badge/1SV149-Datenblatt%20öffnen-green?style=for-the-badge)](https://www.radiomuseum.co.uk/filter/1SV149.pdf) |
-| L1, L2 | 3,3 µH | Induktiver Teil des Schwingkreises | – |
-| R4 | 51 kΩ | Einstellung des Referenzstroms im realen Aufbau | – |
+| Bezeichnung | Bauteil | Funktion | SPICE-Modell / Bibliothek | Datenblatt |
+|---|---|---|---|---|
+| Q1, Q2 | [`BS170`](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) | Cross-Coupled-Transistorpaar | `elk.lib` | [![BS170-Datenblatt](https://img.shields.io/badge/BS170-Datenblatt%20öffnen-blue?style=for-the-badge)](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) |
+| Q3, Q4 | [`BS170`](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) | NMOS-Stromspiegel | `elk.lib` | [![BS170-Datenblatt](https://img.shields.io/badge/BS170-Datenblatt%20öffnen-blue?style=for-the-badge)](https://www.onsemi.com/download/data-sheet/pdf/mmbf170-d.pdf) |
+| D1, D2 | [`1SV149`](https://www.radiomuseum.co.uk/filter/1SV149.pdf) | Varaktordioden zur Frequenzabstimmung | `BB112.lib` beziehungsweise eigenes `1SV149`-Modell | [![1SV149-Datenblatt](https://img.shields.io/badge/1SV149-Datenblatt%20öffnen-green?style=for-the-badge)](https://www.radiomuseum.co.uk/filter/1SV149.pdf) |
+| L1, L2 | 3,3 µH | Induktiver Teil des Schwingkreises | Standardmodell aus `spice.lib` | – |
+| R4 | 51 kΩ | Einstellung des Referenzstroms im realen Aufbau | Standardmodell aus `spice.lib` | – |
 
-Die Bauteilwerte können sich während der weiteren Entwicklung und Optimierung noch ändern.
+Für die MOSFETs wird das Modell des `BS170` aus der Bibliothek `elk.lib` verwendet. Die passiven Bauteile greifen auf die Standardmodelle aus `spice.lib` zurück.
+
+Für die Varaktordioden wurde zunächst das Modell aus `BB112.lib` verwendet, da damit in der Simulation eine deutliche Frequenzänderung erreicht werden konnte. Alternativ wird ein eigenes Modell für die `1SV149` eingesetzt. Das Modell aus `BB112.lib` entspricht dabei nicht exakt der real verbauten `1SV149`, sondern dient lediglich als Näherung ihres kapazitätsabhängigen Verhaltens.
 
 ## Aktueller Stand
 
