@@ -355,7 +355,7 @@ Der geforderte Frequenzbereich von ungefähr **5 MHz bis 6 MHz** und die Mittenf
 
 Folgende Kundenanforderungen sind noch nicht vollständig erfüllt:
 
-- Anpassung des externen Eingangs auf einen Arbeitspunkt von **0 V**
+- Anpassung des Eingangs von **0 V**
 - Umsetzung einer Frequenzänderung von ungefähr **±0,5 MHz** bei einem Eingangssignal von **±0,5 V**
 - Integration eines Spannungsteilers beziehungsweise einer geeigneten Schaltung zur Einstellung des internen Arbeitspunktes
 - weitere Verringerung beziehungsweise genaue Bewertung der nichtlinearen Verzerrungen
