@@ -384,7 +384,7 @@ git clone <URL-DES-REPOSITORY>
 Der aktuelle Stand des KiCad-Projekts befindet sich im folgenden Unterordner:
 
 ```text
-kicad/FM-ELK_LC-VCO-FINAL
+kicad/FM-ELK_LC-VCO-V3
 ```
 
 Anschließend kann die darin enthaltene `.kicad_pro`-Datei mit KiCad geöffnet werden.
