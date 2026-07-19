@@ -266,8 +266,6 @@ Der ursprünglich vorgesehene Eingangsspannungsbereich von ungefähr **±0,5 V**
 
 Die folgende Abbildunge zeigt die letzten zwei Perioden des mit dem Oszilloskop aufgenommenen Ausgangssignals.
 
-#### Messung bei 5 MHz
-
 <p align="center">
   <img
     src="python/plots/oszilloskop_alle_frequenzen.png"
