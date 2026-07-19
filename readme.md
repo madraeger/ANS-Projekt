@@ -188,12 +188,6 @@ Für den aktuellen Aufbau werden unter anderem folgende Bauteile verwendet:
 
 Die Bauteilwerte können sich während der weiteren Entwicklung und Optimierung noch ändern.
 
-## Abweichungen zwischen Simulation und realem Aufbau
-
-Für den NMOS-Stromspiegel werden in der Simulation und im realen Aufbau unterschiedliche Widerstandswerte verwendet. Im realen Aufbau wird ein Widerstand von **51 kΩ** eingesetzt. Bei einem größeren Widerstand ist der Strom zu gering, sodass der Oszillator nicht zuverlässig zu schwingen beginnt. In der SPICE-Simulation wird dagegen ein größerer Widerstand benötigt, da kleinere Widerstandswerte zu Verzerrungen des Ausgangssignals führen.
-
-Im realen Aufbau wurden außerdem Kondensatoren parallel zur Spannungsversorgung geschaltet. Diese dienen als Abblock- beziehungsweise Stützkondensatoren und reduzieren hochfrequente Störungen sowie kurzzeitige Spannungsschwankungen.
-
 ## Aktueller Stand
 
 Der VCO wurde sowohl in **SPICE simuliert** als auch **praktisch aufgebaut**. Der geforderte nutzbare Frequenzbereich von ungefähr **5 MHz bis 6 MHz** wird bereits erreicht.
@@ -357,7 +351,6 @@ Folgende Kundenanforderungen sind noch nicht vollständig erfüllt:
 
 - Anpassung des Eingangs von **0 V**
 - Umsetzung einer Frequenzänderung von ungefähr **±0,5 MHz** bei einem Eingangssignal von **±0,5 V**
-- Integration eines Spannungsteilers beziehungsweise einer geeigneten Schaltung zur Einstellung des internen Arbeitspunktes
 - weitere Verringerung beziehungsweise genaue Bewertung der nichtlinearen Verzerrungen
 - Anpassung und Optimierung des bereits erstellten Platinenlayouts
 - Realisierung eines Ausgangswiderstands von **50 Ω**
