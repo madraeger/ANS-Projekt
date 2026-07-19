@@ -1995,7 +1995,7 @@
 				)
 			)
 		)
-		(property "Value" "47k"
+		(property "Value" "10k"
 			(at 125.73 118.11 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2233,7 +2233,7 @@
 				)
 			)
 		)
-		(property "Value" "22k"
+		(property "Value" "10k"
 			(at 138.43 102.87 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2561,7 +2561,7 @@
 				)
 			)
 		)
-		(property "Value" "22k"
+		(property "Value" "10k"
 			(at 113.03 102.87 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2852,7 +2852,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "3u"
+		(property "Value" "3.3u"
 			(at 102.87 73.6599 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3128,7 +3128,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "3u"
+		(property "Value" "3.3u"
 			(at 154.94 74.9299 0)
 			(show_name no)
 			(do_not_autoplace no)

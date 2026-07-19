@@ -15,7 +15,7 @@
     {
       "analysis": "TRAN",
       "commands": [
-        ".tran 1n 200u",
+        ".tran 1n 120u",
         ".kicad adjustpaths",
         ".save all",
         ".probe alli",
@@ -38,12 +38,12 @@
         {
           "color": "rgb(166, 86, 40)",
           "cursor1": {
-            "position": 0.0001802853793940949,
+            "position": 9.067002605668735e-05,
             "x_format": "3~s",
             "y_format": "3~V"
           },
           "cursor2": {
-            "position": 0.00018048201170494532,
+            "position": 9.084105962057437e-05,
             "x_format": "3~s",
             "y_format": "3~V"
           },

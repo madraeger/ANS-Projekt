@@ -1382,6 +1382,12 @@
 		)
 	)
 	(junction
+		(at 114.3 77.47)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2680888f-7725-4ed0-8ce3-02f9e4da9219")
+	)
+	(junction
 		(at 74.93 80.01)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1392,12 +1398,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "83f6114f-6a53-48bf-8848-28b09e8a1fc6")
-	)
-	(junction
-		(at 67.31 90.17)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "8cb321f0-d575-47de-89f8-d9125b7ef8d8")
 	)
 	(junction
 		(at 83.82 96.52)
@@ -1412,16 +1412,16 @@
 		(uuid "a222b7ff-a2d5-4ace-a5d3-db588e664f7a")
 	)
 	(junction
+		(at 128.27 88.9)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a2efb95b-ffeb-4a2d-b8fa-c9aa56941a89")
+	)
+	(junction
 		(at 83.82 114.3)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "b022eda8-2153-45b8-a93f-c6abd7395a5c")
-	)
-	(junction
-		(at 71.12 80.01)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "b9232c56-1d55-49ee-b8d7-ca27e121384f")
 	)
 	(junction
 		(at 106.68 96.52)
@@ -1487,17 +1487,7 @@
 	)
 	(wire
 		(pts
-			(xy 133.35 97.79) (xy 133.35 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "0ad9f7fc-6166-4d2a-bac8-193e167dabf9")
-	)
-	(wire
-		(pts
-			(xy 114.3 88.9) (xy 151.13 88.9)
+			(xy 114.3 88.9) (xy 128.27 88.9)
 		)
 		(stroke
 			(width 0)
@@ -1537,6 +1527,16 @@
 	)
 	(wire
 		(pts
+			(xy 128.27 78.74) (xy 128.27 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1bc41874-7f26-4ff7-80d8-0a4be0ebc7b1")
+	)
+	(wire
+		(pts
 			(xy 119.38 100.33) (xy 106.68 100.33)
 		)
 		(stroke
@@ -1547,7 +1547,17 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 80.01) (xy 74.93 80.01)
+			(xy 123.19 73.66) (xy 114.3 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "204da1e0-03dc-45d3-80d3-bd97ef7b22a1")
+	)
+	(wire
+		(pts
+			(xy 67.31 80.01) (xy 74.93 80.01)
 		)
 		(stroke
 			(width 0)
@@ -1567,7 +1577,7 @@
 	)
 	(wire
 		(pts
-			(xy 119.38 91.44) (xy 119.38 100.33)
+			(xy 119.38 92.71) (xy 119.38 100.33)
 		)
 		(stroke
 			(width 0)
@@ -1654,6 +1664,16 @@
 			(type default)
 		)
 		(uuid "5826c3ed-bc10-4e44-8187-7ab472e5760d")
+	)
+	(wire
+		(pts
+			(xy 114.3 73.66) (xy 114.3 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5db46246-89e7-4469-a60e-64277170dc1a")
 	)
 	(wire
 		(pts
@@ -1757,16 +1777,6 @@
 	)
 	(wire
 		(pts
-			(xy 54.61 90.17) (xy 67.31 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9fb31d28-22dc-4d03-8c30-133d4dc488e8")
-	)
-	(wire
-		(pts
 			(xy 83.82 96.52) (xy 83.82 101.6)
 		)
 		(stroke
@@ -1774,16 +1784,6 @@
 			(type default)
 		)
 		(uuid "a4ea0920-3a05-4cd0-8fd1-e36155966ef3")
-	)
-	(wire
-		(pts
-			(xy 67.31 80.01) (xy 71.12 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a6825f82-c919-493e-bb9d-0509de987231")
 	)
 	(wire
 		(pts
@@ -1817,16 +1817,6 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 74.93) (xy 71.12 74.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "abce5fdc-bfb1-4d05-a528-3f8715a7b12a")
-	)
-	(wire
-		(pts
 			(xy 83.82 101.6) (xy 95.25 101.6)
 		)
 		(stroke
@@ -1857,7 +1847,7 @@
 	)
 	(wire
 		(pts
-			(xy 151.13 97.79) (xy 133.35 97.79)
+			(xy 151.13 97.79) (xy 128.27 97.79)
 		)
 		(stroke
 			(width 0)
@@ -1877,17 +1867,7 @@
 	)
 	(wire
 		(pts
-			(xy 71.12 74.93) (xy 71.12 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "cf3943da-e40c-4c18-9a05-e56ed44060ba")
-	)
-	(wire
-		(pts
-			(xy 128.27 91.44) (xy 119.38 91.44)
+			(xy 123.19 92.71) (xy 119.38 92.71)
 		)
 		(stroke
 			(width 0)
@@ -1937,6 +1917,16 @@
 	)
 	(wire
 		(pts
+			(xy 128.27 88.9) (xy 151.13 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4967086-af0a-45f6-9cda-80c539aacbcb")
+	)
+	(wire
+		(pts
 			(xy 106.68 114.3) (xy 106.68 113.03)
 		)
 		(stroke
@@ -1944,16 +1934,6 @@
 			(type default)
 		)
 		(uuid "eb24a7be-7d7b-4b10-a377-d96061da4a5d")
-	)
-	(wire
-		(pts
-			(xy 54.61 80.01) (xy 54.61 90.17)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f368ebbd-9b42-4854-a77d-edb0d501ab36")
 	)
 	(wire
 		(pts
@@ -2084,7 +2064,7 @@
 				)
 			)
 		)
-		(property "Sim.Library" "BB112.cir"
+		(property "Sim.Library" "1SV149.lib"
 			(at 100.33 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2095,7 +2075,7 @@
 				)
 			)
 		)
-		(property "Sim.Name" "BB112"
+		(property "Sim.Name" "D1SV149"
 			(at 100.33 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -2525,10 +2505,10 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_Coaxial")
-		(at 133.35 91.44 0)
+		(at 128.27 92.71 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
@@ -2536,7 +2516,7 @@
 		(fields_autoplaced yes)
 		(uuid "2d4098f6-3d70-438e-a16b-a1949b183855")
 		(property "Reference" "J3"
-			(at 137.16 90.4631 0)
+			(at 132.08 91.7331 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2547,7 +2527,7 @@
 			)
 		)
 		(property "Value" "Conn_Coaxial"
-			(at 137.16 93.0031 0)
+			(at 132.08 94.2731 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -2558,7 +2538,7 @@
 			)
 		)
 		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_031-5539_Vertical"
-			(at 133.35 91.44 0)
+			(at 128.27 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2569,7 +2549,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 133.35 91.44 0)
+			(at 128.27 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2580,7 +2560,7 @@
 			)
 		)
 		(property "Description" "coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
-			(at 133.35 91.44 0)
+			(at 128.27 92.71 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2685,10 +2665,10 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_Coaxial")
-		(at 54.61 74.93 90)
+		(at 128.27 73.66 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
+		(exclude_from_sim yes)
 		(in_bom yes)
 		(on_board yes)
 		(in_pos_files yes)
@@ -2696,27 +2676,29 @@
 		(fields_autoplaced yes)
 		(uuid "4dcb2f90-8439-4c17-99a3-33e6395549a6")
 		(property "Reference" "J2"
-			(at 54.9032 68.58 90)
+			(at 132.08 72.6831 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Value" "Conn_Coaxial"
-			(at 54.9032 71.12 90)
+			(at 132.08 75.2231 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" "Connector_Coaxial:BNC_Amphenol_031-5539_Vertical"
-			(at 54.61 74.93 0)
+			(at 128.27 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2727,7 +2709,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 54.61 74.93 0)
+			(at 128.27 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2738,7 +2720,7 @@
 			)
 		)
 		(property "Description" "coaxial connector (BNC, SMA, SMB, SMC, Cinch/RCA, LEMO, ...)"
-			(at 54.61 74.93 0)
+			(at 128.27 73.66 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3317,7 +3299,7 @@
 				)
 			)
 		)
-		(property "Sim.Library" "BB112.cir"
+		(property "Sim.Library" "1SV149.lib"
 			(at 88.9 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -3328,7 +3310,7 @@
 				)
 			)
 		)
-		(property "Sim.Name" "BB112"
+		(property "Sim.Name" "D1SV149"
 			(at 88.9 96.52 0)
 			(hide yes)
 			(show_name no)
@@ -3529,7 +3511,7 @@
 				)
 			)
 		)
-		(property "Value" "500k"
+		(property "Value" "1500k"
 			(at 74.93 106.934 90)
 			(show_name no)
 			(do_not_autoplace no)
