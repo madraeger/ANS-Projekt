@@ -4,24 +4,23 @@ Dieses Repository enthält die Entwicklung, Simulation und praktische Umsetzung 
 
 Der VCO wird in **KiCad** aufgebaut und mit **ngspice** simuliert. Anschließend soll die Schaltung auf einer Platine umgesetzt und messtechnisch untersucht werden.
 
-## Anforderungen
+## Kundenanforderungen
 
 Für den Frequenzmodulator wurden folgende Anforderungen vorgegeben:
 
 - Mittenfrequenz von **5,5 MHz**
-- einstellbarer Frequenzbereich um die Mittenfrequenz
+- Eingangssignal von **0 V**
+- lineare Frequenzänderung von **±0,5 MHz**
 - nutzbarer Frequenzbereich von **5 MHz bis 6 MHz**
-- Eingangssignal im Bereich von ungefähr **±0,5 V**
-- möglichst linearer Zusammenhang zwischen Eingangsspannung und Ausgangsfrequenz
-- möglichst geringe nichtlineare Abweichungen
-- ausreichend große Bandbreite für den Einsatz als Frequenzmodulator
-- ein Eingang und ein Ausgang über BNC-Buchsen
-- Ein- und Ausgang sollen auf **50 Ω** angepasst sein
-- Frequenzdrift soll durch eine Gleichspannung korrigierbar sein
-- robuste Platine für einen stabilen und übersichtlichen Aufbau
-- Kennlinie soll mithilfe einer Gleichspannung aufgenommen werden können
-- Ausgangsspannung soll messbar sein
-- Schaltung soll möglichst kurzschlusssicher sein
+- möglichst geringe nichtlineare Verzerrungen
+- robuste und übersichtliche Platine für den Einsatz im Unterricht
+- Verwendung möglichst großer und gut handhabbarer Bauteile
+- integrierter Spannungsteiler zur Einstellung des Arbeitspunktes
+- Ein- und Ausgang über BNC-Buchsen
+- Ausgangswiderstand von **50 Ω**
+- Korrektur einer Frequenzdrift über eine einstellbare Gleichspannung
+- Aufnahme der Frequenzkennlinie mithilfe einer Gleichspannung
+- möglichst kurzschlusssicherer Ausgang
 
 ## Grundlagen und Aufbau des VCOs
 
@@ -32,15 +31,15 @@ Die Grundlage des VCOs bildet ein LC-Schwingkreis aus Induktivitäten und Kapazi
 Die Resonanzfrequenz kann näherungsweise mit
 
 $$
-f_0 \approx \frac{1}{2\pi\sqrt{L_\text{eff}C_\text{eff}}}
+f_0 \approx \frac{1}{2\pi\sqrt{L_\text{}C_\text{}}}
 $$
 
 beschrieben werden.
 
 Dabei sind:
 
-- $L_\text{eff}$ die wirksame Induktivität des Schwingkreises
-- $C_\text{eff}$ die gesamte wirksame Kapazität einschließlich parasitärer Kapazitäten
+- $L_\text{}$ die wirksame Induktivität des Schwingkreises
+- $C_\text{}$ die gesamte wirksame Kapazität einschließlich parasitärer Kapazitäten
 
 Ein realer LC-Schwingkreis besitzt Verluste, beispielsweise durch die Innenwiderstände der Induktivitäten, Leiterbahnen und angeschlossene Messgeräte. Ohne zusätzliche Energiezufuhr würde die Schwingung deshalb mit der Zeit abklingen.
 
@@ -71,13 +70,17 @@ Der verwendete VCO besteht grundsätzlich aus einem differentiellen LC-Schwingkr
 
 Der VCO setzt sich aus folgenden Funktionsgruppen zusammen:
 
-| Funktionsgruppe | Bauteile der aktuellen Schaltung | Aufgabe |
-|---|---|---|
-| LC-Schwingkreis | `L1`, `L2`, `D1`, `D2` | Festlegung der Resonanzfrequenz |
-| Cross-Coupled-Paar | `Q1`, `Q2` | Ausgleich der Schwingkreisverluste |
-| Frequenzabstimmung | `D1`, `D2`, `Vtune` | Veränderung der wirksamen Kapazität |
-| Stromquelle | `Q3`, `Q4`, `R4` | Einstellung und Begrenzung des Arbeitspunktstroms |
-| Ausgang | rechter Schwingkreisknoten | Ausgabe des hochfrequenten Signals |
+| Funktionsgruppe | Bauteile der Prinzipschaltung | Bauteile der aktuellen Schaltung | Aufgabe |
+|---|---|---|---|
+| LC-Schwingkreis | `L1`, `L2`, `C1`, `C2` sowie die Verlustwiderstände `R1`, `R2` | `L1`, `L2`, `D1`, `D2` | Festlegung der Resonanzfrequenz |
+| Cross-Coupled-Paar | `M1`, `M2` | `Q1`, `Q2` | Ausgleich der Schwingkreisverluste und Aufrechterhaltung der Schwingung |
+| Frequenzabstimmung | Varaktordioden und Steuerspannung `Vctrl` | `D1`, `D2` und Abstimmspannung `Vtune` | Veränderung der wirksamen Kapazität und damit der Ausgangsfrequenz |
+| Stromquelle | ideale Stromquelle `Idc` | `Q3`, `Q4`, `R4` | Einstellung und Begrenzung des Arbeitspunktstroms |
+| Ausgang | einer der beiden Schwingkreisknoten | rechter Schwingkreisknoten | Ausgabe des hochfrequenten Signals |
+
+In der Prinzipschaltung werden die Verluste des LC-Schwingkreises durch die Parallelwiderstände `R1` und `R2` dargestellt. In der realen Schaltung entstehen diese Verluste bereits durch die Innenwiderstände der Spulen, die Varaktordioden, die MOSFETs und die Leiterbahnen. Deshalb wurden keine zusätzlichen Widerstände parallel zum Schwingkreis eingesetzt.
+
+Die Kondensatoren `C1` und `C2` der Prinzipschaltung werden in der aktuellen Schaltung hauptsächlich durch die spannungsabhängigen Kapazitäten der Varaktordioden `D1` und `D2` ersetzt.
 
 Der LC-Schwingkreis bestimmt die Ausgangsfrequenz. Das Cross-Coupled-Transistorpaar führt dem Schwingkreis die durch reale Verluste abgegebene Energie wieder zu. Die Varaktordioden ermöglichen die spannungsabhängige Frequenzeinstellung über `Vtune`.
 
@@ -94,9 +97,9 @@ Das Transistorpaar erzeugt im Schwingkreis einen negativen differentiellen Wider
 
 ### Spannungsabhängige Frequenzabstimmung
 
-Damit aus dem LC-Oszillator ein spannungsgesteuerter Oszillator wird, werden die festen Kapazitäten teilweise durch Varaktordioden ersetzt.
+Damit aus dem LC-Oszillator ein spannungsgesteuerter Oszillator wird, werden die festen Kapazitäten durch Varaktordioden ersetzt.
 
-Eine Varaktordiode wird in Sperrrichtung betrieben und verhält sich dabei näherungsweise wie ein spannungsabhängiger Kondensator. Die Abstimmspannung `Vtune` verändert die Sperrspannung und damit die Kapazität der Dioden.
+Eine Varaktordiode wird in Sperrrichtung betrieben und verhält sich dabei wie ein spannungsabhängiger Kondensator. Die Abstimmspannung `Vtune` verändert die Sperrspannung und damit die Kapazität der Dioden.
 
 Dadurch verändert sich die wirksame Kapazität des Schwingkreises:
 
@@ -159,15 +162,6 @@ Die Bauteile der Prinzipschaltung entsprechen in der aktuellen VCO-Schaltung fol
 | Referenzstrom `IREF` | Strom durch `R4` und `Q4` |
 | Ausgangsstrom `IBIAS` | Arbeitspunktstrom für `Q1` und `Q2` |
 
-Der Stromspiegel übernimmt unter anderem folgende Aufgaben:
-
-- Einstellung des Arbeitspunktstroms
-- Begrenzung des Stroms durch den Oszillator
-- Unterstützung eines zuverlässigen Anschwingens
-- Verringerung großer Stromschwankungen
-- Beeinflussung der Ausgangsamplitude
-- Schutz der MOSFETs vor zu hohen Strömen
-
 Der Referenzstrom kann vereinfacht mit folgender Gleichung abgeschätzt werden:
 
 $$
@@ -178,42 +172,7 @@ $$
 
 Diese Gleichung ist nur eine Näherung, da die Gate-Source-Spannung `VGS` vom verwendeten MOSFET, vom Strom und von der Temperatur abhängt.
 
-Im realen Aufbau wird für `R4` ein Widerstand von **51 kΩ** verwendet. Bei einem deutlich größeren Widerstand ist der Strom zu klein, sodass der Oszillator nicht zuverlässig zu schwingen beginnt.
-
-In der SPICE-Simulation wird dagegen ein deutlich größerer Widerstand verwendet. Bei einem Widerstand von **51 kΩ** treten in der Simulation stärkere Verzerrungen des Ausgangssignals auf.
-
-Dieser Unterschied zeigt, dass das verwendete MOSFET-Modell das reale Verhalten des Stromspiegels nur näherungsweise abbildet.
-
-Der einfache NMOS-Stromspiegel ist keine ideale Stromquelle. Der erzeugte Strom wird unter anderem durch folgende Eigenschaften beeinflusst:
-
-- Bauteiltoleranzen der MOSFETs
-- unterschiedliche Gate-Source-Schwellspannungen
-- Drain-Source-Spannung von `Q3`
-- Temperatur
-- Versorgungsspannung
-- Ausgangswiderstand der MOSFETs
-
 Der Stromspiegel stabilisiert damit den Arbeitspunkt der Schaltung, stellt jedoch keine vollständige automatische Regelung der Ausgangsamplitude dar.
-
-### Einsatz als Frequenzmodulator
-
-Für die Frequenzmodulation wird der Abstimmspannung eine Gleichspannung und ein zeitlich veränderliches Modulationssignal überlagert:
-
-$$
-V_\text{tune}(t) = V_\text{DC} + v_\text{mod}(t)
-$$
-
-Die Gleichspannung $V_\text{DC}$ legt die Mittenfrequenz fest. Das Modulationssignal $v_\text{mod}(t)$ verändert die Momentanfrequenz um diese Mittenfrequenz.
-
-Bei einer annähernd linearen VCO-Kennlinie gilt näherungsweise:
-
-$$
-f_\text{out}(t) = f_\text{Mitte} + K_\text{VCO}\cdot v_\text{mod}(t)
-$$
-
-Die Amplitude des Modulationssignals bestimmt damit den Frequenzhub. Die Frequenz des Modulationssignals bestimmt, wie schnell die Ausgangsfrequenz zwischen ihren Grenzwerten verändert wird.
-
-Damit die Frequenzmodulation möglichst unverzerrt erfolgt, muss das Modulationssignal innerhalb des annähernd linearen Bereichs der aufgenommenen VCO-Kennlinie bleiben.
 
 ## Verwendete Bauteile
 
@@ -231,25 +190,9 @@ Die Bauteilwerte können sich während der weiteren Entwicklung und Optimierung 
 
 ## Abweichungen zwischen Simulation und realem Aufbau
 
-Die SPICE-Simulation bildet das Verhalten der realen Schaltung nur näherungsweise ab.
-
-Mögliche Ursachen für Abweichungen sind:
-
-- vereinfachtes SPICE-Modell der Varaktordioden
-- Abweichungen der MOSFET-Modelle vom realen Verhalten
-- Bauteiltoleranzen
-- parasitäre Kapazitäten und Induktivitäten
-- Innenwiderstände der Induktivitäten
-- Leiterbahnen und Steckverbindungen
-- Belastung durch Tastköpfe und Messgeräte
-- Temperaturabhängigkeit der Bauteile
-- Störungen und Schwankungen der Versorgungsspannung
-
 Für den NMOS-Stromspiegel werden in der Simulation und im realen Aufbau unterschiedliche Widerstandswerte verwendet. Im realen Aufbau wird ein Widerstand von **51 kΩ** eingesetzt. Bei einem größeren Widerstand ist der Strom zu gering, sodass der Oszillator nicht zuverlässig zu schwingen beginnt. In der SPICE-Simulation wird dagegen ein größerer Widerstand benötigt, da kleinere Widerstandswerte zu Verzerrungen des Ausgangssignals führen.
 
-Im realen Aufbau wurden außerdem Kondensatoren parallel zur Spannungsversorgung geschaltet. Diese dienen als Abblock- beziehungsweise Stützkondensatoren und reduzieren hochfrequente Störungen sowie kurzzeitige Spannungsschwankungen. Dadurch wird die Versorgungsspannung direkt an der Schaltung stabilisiert und das Schwingverhalten des VCOs verbessert.
-
-Die Kondensatoren sollten auf der späteren Platine möglichst nah an den Versorgungspins der MOSFETs angeordnet werden.
+Im realen Aufbau wurden außerdem Kondensatoren parallel zur Spannungsversorgung geschaltet. Diese dienen als Abblock- beziehungsweise Stützkondensatoren und reduzieren hochfrequente Störungen sowie kurzzeitige Spannungsschwankungen.
 
 ## Aktueller Stand
 
@@ -286,26 +229,6 @@ Die Kennlinie wurde aufgenommen, indem die Gleichspannung `Vtune` schrittweise v
   <em>Gemessene Ausgangsfrequenz in Abhängigkeit von der Abstimmspannung Vtune</em>
 </p>
 
-Die Kennlinie lässt sich im betrachteten Bereich näherungsweise durch folgende lineare Funktion beschreiben:
-
-$$
-f_\text{out}
-\approx
--0{,}650\,
-\frac{\text{MHz}}{\text{V}}
-\cdot V_\text{tune}
-+
-9{,}468\,\text{MHz}
-$$
-
-Das Bestimmtheitsmaß der linearen Näherung beträgt ungefähr:
-
-$$
-R^2 \approx 0{,}9989
-$$
-
-Damit zeigt die aufgenommene Kennlinie nur geringe Abweichungen von einem linearen Verlauf.
-
 Die VCO-Empfindlichkeit beträgt näherungsweise:
 
 $$
@@ -341,7 +264,7 @@ Der ursprünglich vorgesehene Eingangsspannungsbereich von ungefähr **±0,5 V**
 
 ### Gemessene Ausgangssignale
 
-Die folgenden Abbildungen zeigen jeweils die letzten drei Perioden des mit dem Oszilloskop aufgenommenen Ausgangssignals.
+Die folgende Abbildunge zeigt die letzten zwei Perioden des mit dem Oszilloskop aufgenommenen Ausgangssignals.
 
 #### Messung bei 5 MHz
 
@@ -406,14 +329,6 @@ Für die Frequenzen **5 MHz**, **5,5 MHz** und **6 MHz** wurden die simulierten 
 
 Die normierten Vergleichsplots zeigen, dass Simulation und Messung grundsätzlich eine ähnliche periodische Signalform besitzen.
 
-Es treten jedoch deutliche Unterschiede auf:
-
-- Die Simulation besitzt einen großen Gleichspannungsanteil nahe der Versorgungsspannung.
-- Das gemessene Signal liegt dagegen näherungsweise um 0 V.
-- Die simulierte und die gemessene Ausgangsamplitude unterscheiden sich deutlich.
-- Die Signalformen stimmen nicht vollständig überein.
-- Bei 6 MHz nimmt die gemessene Ausgangsamplitude stärker ab.
-- Kleine Phasenabweichungen bleiben trotz der Phasenanpassung sichtbar.
 
 Die Simulation beschreibt damit das grundsätzliche Schwingverhalten, bildet den realen Arbeitspunkt und die tatsächliche Ausgangsamplitude jedoch nur eingeschränkt ab.
 
@@ -427,19 +342,6 @@ In der SPICE-Simulation wird dagegen ein größerer Widerstand benötigt, da kle
 
 Zusätzlich wurden im realen Aufbau Kondensatoren parallel zur Spannungsversorgung eingesetzt. Diese dienen als Abblock- und Stützkondensatoren und reduzieren hochfrequente Störungen sowie kurzzeitige Spannungsschwankungen.
 
-Die Unterschiede zwischen Simulation und Messung können unter anderem durch folgende Einflüsse verursacht werden:
-
-- vereinfachte SPICE-Modelle der MOSFETs
-- vereinfachtes Kapazitätsmodell der Varaktordioden
-- Bauteiltoleranzen
-- parasitäre Kapazitäten und Induktivitäten
-- Innenwiderstände der Induktivitäten
-- Aufbau auf dem Steckbrett
-- Leitungs- und Kontaktwiderstände
-- Belastung durch Tastkopf und Oszilloskop
-- Unterschiede bei der Versorgungsspannung
-- Temperaturabhängigkeit der Bauteile
-
 ### Platinenlayout
 
 Eine erste Platine wurde bereits in KiCad erstellt. Das Layout muss jedoch noch an den aktuellen Schaltungsstand angepasst und weiter optimiert werden.
@@ -447,24 +349,22 @@ Eine erste Platine wurde bereits in KiCad erstellt. Das Layout muss jedoch noch 
 Besonders berücksichtigt werden müssen:
 
 - Platzierung der Abblockkondensatoren nahe an den MOSFETs
-- Entkopplung des Ausgangs vom Schwingkreis
 - Ein- und Ausgangsanpassung
-- mögliche Ausgangspufferung
 
 ## Noch nicht vollständig erfüllte Anforderungen
 
-Folgende Anforderungen sind derzeit noch nicht vollständig umgesetzt oder müssen weiter untersucht werden:
+Der geforderte Frequenzbereich von ungefähr **5 MHz bis 6 MHz** und die Mittenfrequenz von ungefähr **5,5 MHz** werden bereits erreicht. Auch die Frequenzkennlinie wurde mithilfe einer veränderlichen Gleichspannung aufgenommen und zeigt im untersuchten Bereich einen nahezu linearen Verlauf.
 
-- Anpassung des Modulationseingangs an ein Eingangssignal von ungefähr **±0,5 V**
-- Untersuchung der Bandbreite des Modulationseingangs
-- weitere Stabilisierung der Ausgangsamplitude in Richtung **6 MHz**
-- Einkopplung des Modulationssignals zusammen mit einer einstellbaren Gleichspannung
-- Anpassung des Eingangs auf **50 Ω**
-- Ergänzung einer Ausgangspufferung zur Entkopplung des Schwingkreises
-- Anpassung des Ausgangs auf **50 Ω**
+Folgende Kundenanforderungen sind noch nicht vollständig erfüllt:
+
+- Anpassung des externen Eingangs auf einen Arbeitspunkt von **0 V**
+- Umsetzung einer Frequenzänderung von ungefähr **±0,5 MHz** bei einem Eingangssignal von **±0,5 V**
+- Integration eines Spannungsteilers beziehungsweise einer geeigneten Schaltung zur Einstellung des internen Arbeitspunktes
+- weitere Verringerung beziehungsweise genaue Bewertung der nichtlinearen Verzerrungen
+- Anpassung und Optimierung des bereits erstellten Platinenlayouts
+- Realisierung eines Ausgangswiderstands von **50 Ω**
+- Umsetzung und Prüfung der Korrektur einer Frequenzdrift über eine einstellbare Gleichspannung
 - möglichst kurzschlusssichere Auslegung des Ausgangs
-- Untersuchung der Frequenzdrift und der Temperaturabhängigkeit
-- Anpassung und Optimierung des Platinenlayouts
 - Aufbau und Prüfung der endgültigen Platine
 
 ## Verwendete Software
