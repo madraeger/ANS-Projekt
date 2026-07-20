@@ -781,3 +781,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#Plots wurden mit unterstützdung von Copilot erzeugt
